@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.UsuarioController">
+   <children>
+      <AnchorPane layoutX="57.0" layoutY="14.0" />
+      <MenuBar prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="Gestion de Usuarios">
+              <items>
+                <MenuItem fx:id="smnuABMCusuarios" mnemonicParsing="false" onAction="#abrirPantallaGestionUsuarios" text="Gestionar un usuario" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Gestion de profesionales">
+            <items>
+              <MenuItem mnemonicParsing="false" text="ABM Profesional" />
+                  <MenuItem mnemonicParsing="false" text="Consulta de Profesional" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Gestion de Obras Sociales">
+            <items>
+              <MenuItem fx:id="smnuABMCOs" mnemonicParsing="false" onAction="#onCargarPantallaPrestadores" text="GESTION DE OBRAS SOCIALES" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Gestion de Prestaciones">
+            <items>
+              <MenuItem fx:id="smnuABMCprestaciones" mnemonicParsing="false" onAction="#onCargarPantallaPrestaciones" text="ABM de Prestaciones" />
+                  <MenuItem mnemonicParsing="false" text="Consulta de Prestaciones" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="SALIR">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Carga Ordenes y Liquidacion">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
