@@ -26,8 +26,6 @@ public class LoginController {
 
     // Método que se ejecuta al hacer clic en el botón
     @FXML
-
-
     private void iniciarSesion() {
         System.out.println("El botón fue presionado. Método ejecutado.");
 

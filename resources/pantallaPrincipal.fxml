@@ -5,7 +5,9 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.UsuarioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" 
+minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" 
+xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.UsuarioController">
    <children>
       <AnchorPane layoutX="57.0" layoutY="14.0" />
       <MenuBar prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -28,7 +30,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Gestion de Prestaciones">
             <items>
-              <MenuItem fx:id="smnuABMCprestaciones" mnemonicParsing="false" onAction="#onCargarPantallaPrestaciones" text="ABM de Prestaciones" />
+              <MenuItem fx:id="smnuABMCprestaciones" mnemonicParsing="false" 
+              onAction="#onCargarPantallaPrestaciones" text="ABM de Prestaciones" />
                   <MenuItem mnemonicParsing="false" text="Consulta de Prestaciones" />
             </items>
           </Menu>
@@ -39,7 +42,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Carga Ordenes y Liquidacion">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="smnCargaOrdenes" mnemonicParsing="false" 
+                onAction="#AbrirPantallaCargadeOrdenes" text="Carga de Ordenes" />
               </items>
             </Menu>
         </menus>

@@ -1,108 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane layoutX="1.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="810.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.ControllerPrestacionesXOrden">
+
    <children>
-      <Label layoutX="5.0" layoutY="158.0" prefHeight="32.0" prefWidth="733.0" style="-fx-border-color: black;" />
-      <Label alignment="CENTER" prefHeight="32.0" prefWidth="754.0" text="PANTALLA DE CARGA DE ORDENES">
+      <Label layoutX="9.0" layoutY="158.0" prefHeight="32.0" prefWidth="733.0" style="-fx-border-color: black;" />
+      <Label alignment="CENTER" prefHeight="32.0" prefWidth="800.0" text="PANTALLA DE CARGA DE ORDENES">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="16.0" layoutY="63.0" prefHeight="32.0" prefWidth="73.0" style="-fx-background-color: LIGHTblue; -fx-border-color: black;" textAlignment="CENTER">
+      <Label fx:id="lblnroOrden" layoutX="16.0" layoutY="63.0" prefHeight="32.0" prefWidth="73.0" style="-fx-background-color: LIGHTblue; -fx-border-color: black;" textAlignment="CENTER">
          <font>
             <Font name="Alef Bold" size="14.0" />
          </font>
       </Label>
       <Label layoutX="14.0" layoutY="45.0" text=".Orden nro" />
-      <DatePicker layoutX="105.0" layoutY="70.0" />
-      <ComboBox layoutX="312.0" layoutY="70.0" prefHeight="25.0" prefWidth="228.0" />
-      <ComboBox layoutX="14.0" layoutY="115.0" prefHeight="25.0" prefWidth="260.0" />
-      <ComboBox layoutX="286.0" layoutY="115.0" prefHeight="25.0" prefWidth="260.0" />
-      <ComboBox layoutX="554.0" layoutY="115.0" prefHeight="25.0" prefWidth="199.0" />
-      <RadioButton layoutX="14.0" layoutY="166.0" mnemonicParsing="false" text="GRAVADO">
+      <DatePicker fx:id="dtpFecha" layoutX="96.0" layoutY="70.0" />
+      <ComboBox fx:id="cmbProfesional" layoutX="278.0" layoutY="70.0" onAction="#SeleccionarProfesional" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="cmbOS" layoutX="14.0" layoutY="115.0" onAction="#SeleccionarOS" prefHeight="25.0" prefWidth="260.0" />
+      <ComboBox fx:id="cmbPrestaciones" layoutX="280.0" layoutY="115.0" onAction="#onSeleccionarPrestacion" prefHeight="25.0" prefWidth="260.0" />
+      <ComboBox fx:id="cmbFederacion" layoutX="554.0" layoutY="115.0" prefHeight="25.0" prefWidth="199.0" />
+      <RadioButton fx:id="optgravado" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" text="GRAVADO">
          <toggleGroup>
             <ToggleGroup fx:id="opciones" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="126.0" layoutY="166.0" mnemonicParsing="false" text="RURAL" toggleGroup="$opciones" />
-      <RadioButton layoutX="202.0" layoutY="166.0" mnemonicParsing="false" text="MONOTRIBUTO" toggleGroup="$opciones" />
-      <RadioButton layoutX="328.0" layoutY="166.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$opciones" />
-      <RadioButton layoutX="426.0" layoutY="166.0" mnemonicParsing="false" text="EN ACTIVIDAD" toggleGroup="$opciones" />
-      <RadioButton layoutX="530.0" layoutY="166.0" mnemonicParsing="false" text="FAMILIA" toggleGroup="$opciones" />
-      <RadioButton layoutX="606.0" layoutY="166.0" mnemonicParsing="false" text=" CLASIC Y ACCORD" toggleGroup="$opciones" />
+      <RadioButton fx:id="optrural" layoutX="200.0" layoutY="166.0" mnemonicParsing="false" text="RURAL" toggleGroup="$opciones" />
+      <RadioButton fx:id="optmonotributo" layoutX="286.0" layoutY="166.0" mnemonicParsing="false" text="MONOTRIBUTO" toggleGroup="$opciones" />
+      <RadioButton fx:id="optNoGravado" layoutX="95.0" layoutY="166.0" mnemonicParsing="false" text="NO GRAVADO" toggleGroup="$opciones" />
+      <RadioButton fx:id="optActividad" layoutX="421.0" layoutY="166.0" mnemonicParsing="false" text="EN ACTIVIDAD" toggleGroup="$opciones" />
+      <RadioButton fx:id="optFamilia" layoutX="530.0" layoutY="166.0" mnemonicParsing="false" text="FAMILIA" toggleGroup="$opciones" />
+      <RadioButton fx:id="optClasic" layoutX="606.0" layoutY="166.0" mnemonicParsing="false" text=" CLASIC Y ACCORD" toggleGroup="$opciones" />
       <Accordion layoutX="34.0" layoutY="214.0" />
-      <AnchorPane layoutX="7.0" layoutY="214.0" prefHeight="200.0" prefWidth="754.0" style="-fx-border-color: black;">
+      <AnchorPane layoutX="7.0" layoutY="214.0" prefHeight="196.0" prefWidth="793.0" style="-fx-border-color: black;">
          <children>
-            <TextField layoutX="10.0" layoutY="18.0" />
+            <TextField fx:id="txtAfiliado" layoutX="10.0" layoutY="18.0" />
             <Label layoutX="10.0" layoutY="2.0" text="Nro.Afiliado" />
-            <TextField layoutX="178.0" layoutY="18.0" prefHeight="25.0" prefWidth="301.0" />
-            <TextField layoutX="490.0" layoutY="18.0" prefHeight="25.0" prefWidth="49.0" />
-            <TextField layoutX="552.0" layoutY="18.0" prefHeight="25.0" prefWidth="161.0" />
-            <DatePicker layoutX="10.0" layoutY="66.0" />
-            <DatePicker layoutX="220.0" layoutY="67.0" />
-            <TextField layoutX="416.0" layoutY="66.0" prefHeight="25.0" prefWidth="301.0" />
-            <TextField layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="181.0" />
-            <TextField layoutX="212.0" layoutY="110.0" prefHeight="25.0" prefWidth="301.0" />
-            <TextField layoutX="10.0" layoutY="155.0" prefHeight="25.0" prefWidth="199.0" />
-            <TextField layoutX="221.0" layoutY="155.0" prefHeight="25.0" prefWidth="34.0" />
-            <TextField layoutX="271.0" layoutY="155.0" prefHeight="25.0" prefWidth="34.0" />
-            <TextField layoutX="321.0" layoutY="155.0" prefHeight="25.0" prefWidth="34.0" />
-            <TextField layoutX="370.0" layoutY="155.0" prefHeight="27.0" prefWidth="181.0" style="-fx-background-color: orange; -fx-border-color: black;" />
-            <TextField layoutX="559.0" layoutY="110.0" prefHeight="80.0" prefWidth="181.0" />
+            <TextField fx:id="txtApenom" layoutX="178.0" layoutY="18.0" prefHeight="25.0" prefWidth="301.0" />
+            <TextField fx:id="txtEdad" layoutX="490.0" layoutY="18.0" prefHeight="25.0" prefWidth="49.0" />
+            <TextField fx:id="txtDenuncia" layoutX="552.0" layoutY="18.0" prefHeight="25.0" prefWidth="161.0" />
+            <DatePicker fx:id="dtpingreso" layoutX="10.0" layoutY="66.0" />
+            <DatePicker fx:id="dtpEgreso" layoutX="220.0" layoutY="67.0" />
+            <TextField fx:id="txtDomicilio" layoutX="412.0" layoutY="66.0" prefHeight="25.0" prefWidth="301.0" />
+            <TextField fx:id="txtLocalidad" layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="181.0" />
+            <TextField fx:id="txtDiagnostico" layoutX="212.0" layoutY="110.0" prefHeight="25.0" prefWidth="301.0" />
+            <TextField fx:id="txtSala" layoutX="221.0" layoutY="155.0" prefHeight="25.0" prefWidth="34.0" />
+            <TextField fx:id="txtUti" layoutX="271.0" layoutY="155.0" prefHeight="25.0" prefWidth="34.0" />
+            <TextField fx:id="txtUsi" layoutX="321.0" layoutY="155.0" prefHeight="25.0" prefWidth="34.0" />
+            <TextField fx:id="txtMonto" layoutX="367.0" layoutY="155.0" prefHeight="27.0" prefWidth="181.0" style="-fx-background-color: orange; -fx-border-color: black;" />
             <Label layoutX="179.0" layoutY="2.0" text="Apellido y Nombre" />
             <Label layoutX="490.0" layoutY="2.0" text="Edad" />
             <Label layoutX="552.0" layoutY="2.0" text="Cod.Denuncia" />
             <Label layoutX="10.0" layoutY="50.0" text="Ingreso" />
             <Label layoutX="220.0" layoutY="50.0" text="Egreso" />
-            <Label layoutX="416.0" layoutY="50.0" text="Domicilio" />
+            <Label layoutX="411.0" layoutY="50.0" text="Domicilio" />
             <Label layoutX="10.0" layoutY="95.0" text="Localidad" />
             <Label layoutX="212.0" layoutY="95.0" text="Diagnostico" />
             <Label layoutX="9.0" layoutY="139.0" text="Condicion de Alta" />
             <Label layoutX="220.0" layoutY="138.0" text="Sala" />
             <Label layoutX="271.0" layoutY="138.0" text="UTI" />
             <Label layoutX="321.0" layoutY="138.0" text="USI" />
-            <Label layoutX="361.0" layoutY="138.0" text="Monto (quirurgico no estipulado)" />
-            <Label layoutX="559.0" layoutY="95.0" text="Observaciones" />
+            <Label layoutX="367.0" layoutY="138.0" text="Monto (quirurgico no estipulado)" />
+            <Label layoutX="553.0" layoutY="95.0" text="Observaciones" />
+            <Button fx:id="btnAgregar" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" disable="true" layoutX="722.0" layoutY="15.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAgregarAGrilla" prefHeight="173.0" prefWidth="64.0" text="+" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="30.0" />
+               </font>
+            </Button>
+            <TextField fx:id="txtAlta" layoutX="10.0" layoutY="155.0" prefHeight="25.0" prefWidth="174.0" />
+            <TextArea fx:id="txtObservaciones" layoutX="553.0" layoutY="110.0" prefHeight="80.0" prefWidth="161.0" style="-fx-background-color: white; -fx-border-color: black;" wrapText="true" />
          </children>
       </AnchorPane>
       <Label layoutX="10.0" layoutY="197.0" text="Datps del Paciente" />
-      <Label layoutX="106.0" layoutY="55.0" text="Fecha" />
-      <Label layoutX="312.0" layoutY="55.0" text="Profesional" />
+      <Label layoutX="96.0" layoutY="55.0" text="Fecha" />
+      <Label layoutX="281.0" layoutY="55.0" text="Profesional" />
       <Label layoutX="14.0" layoutY="100.0" text="OBRAS SOCIALES" />
       <Label layoutX="283.0" layoutY="100.0" text="PRESTACION" />
-      <Label layoutX="554.0" layoutY="100.0" text="PRESTADORES" />
-      <TableView fx:id="grillaPrestadores" layoutX="7.0" layoutY="426.0" prefHeight="153.0" prefWidth="754.0" style="-fx-border-color: black;">
+      <Label layoutX="554.0" layoutY="100.0" text="FEDERACION" />
+      <TableView fx:id="grillaPrestacionesXOrdenes" layoutX="7.0" layoutY="444.0" prefHeight="153.0" prefWidth="793.0" style="-fx-border-color: black;">
          <columns>
-            <TableColumn fx:id="col_id" prefWidth="75.0" text="Orden" />
-            <TableColumn fx:id="col_prestador" prefWidth="75.0" text="Prestacion" />
-            <TableColumn fx:id="col_cuit" minWidth="3.0" prefWidth="47.0" text="Edad" />
-            <TableColumn fx:id="col_direccion" prefWidth="36.0" text="Ingreso" />
-            <TableColumn fx:id="col_telefono" prefWidth="75.0" text="Egreso" />
-            <TableColumn fx:id="col_fax" prefWidth="75.0" text="Domicilio" />
-            <TableColumn fx:id="col_email" prefWidth="75.0" text="Localidad" />
-            <TableColumn fx:id="col_gravado" prefWidth="75.0" text="Diagnostico" />
-            <TableColumn fx:id="col_rural" prefWidth="75.0" text="Cond.Alta" />
-            <TableColumn fx:id="col_monotributo" prefWidth="75.0" text="Sala" />
-            <TableColumn fx:id="col_familia" prefWidth="75.0" text="UTI" />
-            <TableColumn fx:id="col_enactividad" prefWidth="75.0" text="USI" />
-            <TableColumn fx:id="col_clasic" prefWidth="75.0" text="Monto" />
-            <TableColumn fx:id="col_id1" prefWidth="75.0" text="Observaciones" />
+            <TableColumn fx:id="col_id" prefWidth="75.0" text="id_orden" />
+            <TableColumn fx:id="col_prestacion" text="id_prestacion" />
+            <TableColumn fx:id="col_Edad" minWidth="0.0" prefWidth="63.0" text="Edad" />
+            <TableColumn fx:id="col_Ingreso" minWidth="0.0" prefWidth="28.0" text="Ingreso" />
+            <TableColumn fx:id="col_Egreso" minWidth="0.0" prefWidth="46.0" text="Egreso" />
+            <TableColumn fx:id="col_Domicilio" minWidth="0.0" prefWidth="0.0" text="Domicilio" />
+            <TableColumn fx:id="col_Localidad" prefWidth="56.0" text="Localidad" />
+            <TableColumn fx:id="col_Diagnostico" prefWidth="55.0" text="Diagnostico" />
+            <TableColumn fx:id="col_Condicion" prefWidth="75.0" text="Cond.Alta" />
+            <TableColumn fx:id="col_Sala" prefWidth="75.0" text="Sala" />
+            <TableColumn fx:id="col_Uti" prefWidth="75.0" text="UTI" />
+            <TableColumn fx:id="col_Usi" prefWidth="75.0" text="USI" />
+            <TableColumn fx:id="col_Monto" prefWidth="75.0" text="Monto" />
+            <TableColumn fx:id="col_Observaciones" prefWidth="75.0" text="Observaciones" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="518.0" layoutY="47.0" stroke="BLACK" strokeType="INSIDE" width="283.0" />
+      <Button fx:id="btnNuevo" layoutX="524.0" layoutY="58.0" mnemonicParsing="false" onAction="#onNuevaOrden" style="-fx-background-color: orange;" text="Nueva" />
+      <Button fx:id="BtnEliminar" layoutX="621.0" layoutY="58.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Eliminar" />
+      <Button fx:id="btnModificar" layoutX="727.0" layoutY="58.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Modificar" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="27.0" layoutX="7.0" layoutY="416.0" stroke="BLACK" strokeType="INSIDE" width="283.0" />
+      <Button fx:id="BtnFiltrar" contentDisplay="CENTER" layoutX="15.0" layoutY="418.0" minHeight="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="67.0" style="-fx-background-color: orange;" text="Filtrar" textAlignment="CENTER" />
+      <Button fx:id="btnGrabar" cancelButton="true" layoutX="532.0" layoutY="415.0" mnemonicParsing="false" onAction="#onbtnGrabar" style="-fx-background-color: orange; -fx-border-color: black;" text="Grabar">
+         <font>
+            <Font name="Alef Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

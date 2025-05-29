@@ -29,31 +29,10 @@ public class UsuarioController {
 
     private ObservableList<GrillaUsuario> listaUsuarios = FXCollections.observableArrayList();
 
-    //@FXML private TableView<GrillaUsuario> grillaprestaciones;
-    //@FXML private TableColumn<GrillaUsuario, Integer> col_id;
-    //@FXML private TableColumn<GrillaUsuario, Integer> col_usuario;
-    //@FXML private TableColumn<GrillaUsuario, String> col_apellido;
-   //@FXML private TableColumn<GrillaUsuario, String> col_nombre;
-   // @FXML private TableColumn<GrillaUsuario, String> col_txtemail;  // Declara txtemail como un TextField
-   // @FXML private TableColumn<GrillaUsuario, String> col_Telefono;
-    //@FXML private ComboBox<ComboItem> cmbrol;
-    // private TableColumn<GrillaUsuario, Integer> col_id;
-   // @FXML
-   // private TableColumn<GrillaUsuario, String> col_usu;
-    //@FXML
-   // private TableColumn<GrillaUsuario, String> col_nombre;
-    //@FXML
-   // private TableColumn<GrillaUsuario, String> col_apellido;
-   // @FXML
-    //private TableColumn<GrillaUsuario, String> col_rol;
-   // @FXML
-    //private TableColumn<GrillaUsuario, String> col_tel;
-    //@FXML
-   // private TableColumn<GrillaUsuario, String> col_email;
-
     @FXML
     private MenuItem smnuABMusu; // IMPORTANTE: vincular este campo con el fx:id en el FXML
     private MenuItem smnuABMCprestaciones;
+    private MenuItem smnCargaOrdenes;
     @FXML private MenuItem smnuABMCOs;
 
 
@@ -61,14 +40,6 @@ public class UsuarioController {
     public void initialize() {
         System.out.println("UsuarioController inicializado");
 
-        // Configurar columnas de la tabla
-        //configureTableColumns();
-
-        // Cargar datos en la tabla
-        //System.out.println("Ingreso a cargar datos");
-       // cargarDatos();
-
-        // Configurar acción del MenuItem
         if (smnuABMusu != null) {
             smnuABMusu.setOnAction(this::abrirPantallaGestionUsuarios);  // Pasar el evento ActionEvent
         } else {
@@ -82,6 +53,11 @@ public class UsuarioController {
         if(smnuABMCOs != null) {
             smnuABMCOs.setOnAction(this::onCargarPantallaPrestadores); 
             
+        } else{
+            System.out.println("El MenuItem  no está vinculado correctamente.");
+        }
+        if(smnCargaOrdenes != null) {
+            smnCargaOrdenes.setOnAction(this::AbrirPantallaCargadeOrdenes); 
         } else{
             System.out.println("El MenuItem  no está vinculado correctamente.");
         }
@@ -114,6 +90,7 @@ public class UsuarioController {
             e.printStackTrace();
         }
     }
+    //onCargarPantallaPrestaciones
     @FXML public void onCargarPantallaPrestaciones(ActionEvent event) {
         System.out.println("Se cargará la pantalla de prestaciones.");
         try {
@@ -132,8 +109,7 @@ public class UsuarioController {
             e.printStackTrace();
         }
     }
-    @FXML
-public void onCargarPantallaPrestadores(ActionEvent event) {
+    @FXML public void onCargarPantallaPrestadores(ActionEvent event) {
     System.out.println("Se cargará la panta lla de prestaciones.");
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/prestadores.fxml"));
@@ -150,5 +126,27 @@ public void onCargarPantallaPrestadores(ActionEvent event) {
         e.printStackTrace();
     }
 }
+    
+  @FXML public void AbrirPantallaCargadeOrdenes(ActionEvent event) {
+        System.out.println("Se abrirá la pantalla de carga de órdenes metodo abrirpantallacargadeordenes.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pantallaCargaOrdenes.fxml"));
+            Parent root = loader.load();
 
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Carga de Órdenes");
+            stage.centerOnScreen();
+            stage.show();
+            System.out.println("paso el comando .show");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("se ha producido u  error");
+        }
+    }
+    
 }
+
+

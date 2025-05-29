@@ -1,0 +1,143 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package src;
+
+public class GrillaPrestadores {
+   private Integer id_prestador;
+   private String razon_social;
+   private String cuit;
+   private String direccion;
+   private String telefono;
+   private String fax;
+   private String email;
+   private Boolean gravado;
+   private Boolean rural;
+   private Boolean monotributo;
+   private Boolean familia;
+   private Boolean enactividad;
+   private Boolean clasic;
+
+   public GrillaPrestadores(Integer var1, String var2, String var3, String var4, String var5, String var6, String var7, Boolean var8, Boolean var9, Boolean var10, Boolean var11, Boolean var12, Boolean var13) {
+      this.id_prestador = var1;
+      this.razon_social = var2;
+      this.cuit = var3;
+      this.direccion = var4;
+      this.telefono = var5;
+      this.fax = var6;
+      this.email = var7;
+      this.gravado = var8;
+      this.rural = var9;
+      this.monotributo = var10;
+      this.familia = var11;
+      this.enactividad = var12;
+      this.clasic = var13;
+   }
+
+   public int getId_prestador() {
+      return this.id_prestador;
+   }
+
+   public String getRazon_social() {
+      return this.razon_social;
+   }
+
+   public String getCuit() {
+      return this.cuit;
+   }
+
+   public String getDireccion() {
+      return this.direccion;
+   }
+
+   public String getTelefono() {
+      return this.telefono;
+   }
+
+   public String getFax() {
+      return this.fax;
+   }
+
+   public String getEmail() {
+      return this.email;
+   }
+
+   public boolean isGravado() {
+      return this.gravado;
+   }
+
+   public boolean isRural() {
+      return this.rural;
+   }
+
+   public boolean isMonotributo() {
+      return this.monotributo;
+   }
+
+   public boolean isFamilia() {
+      return this.familia;
+   }
+
+   public boolean isEnactividad() {
+      return this.enactividad;
+   }
+
+   public boolean isClasic() {
+      return this.clasic;
+   }
+
+   public void setId_prestador(int var1) {
+      this.id_prestador = var1;
+   }
+
+   public void setrazon_social(String var1) {
+      this.razon_social = var1;
+   }
+
+   public void setcuit(String var1) {
+      this.cuit = var1;
+   }
+
+   public void setdireccion(String var1) {
+      this.direccion = var1;
+   }
+
+   public void settelefono(String var1) {
+      this.telefono = var1;
+   }
+
+   public void setfax(String var1) {
+      this.fax = var1;
+   }
+
+   public void setemail(String var1) {
+      this.email = var1;
+   }
+
+   public void setgravado(boolean var1) {
+      this.gravado = var1;
+   }
+
+   public void setrural(boolean var1) {
+      this.rural = var1;
+   }
+
+   public void setmonotributo(boolean var1) {
+      this.monotributo = var1;
+   }
+
+   public void setfamilia(boolean var1) {
+      this.familia = var1;
+   }
+
+   public void setenactividad(boolean var1) {
+      this.enactividad = var1;
+   }
+
+   public void setclasic(boolean var1) {
+      this.clasic = var1;
+   }
+
+   public String toString() {
+      Integer var10000 = this.id_prestador;
+      return "GrillaPrestadores{id_prestador=" + var10000 + ", razon_social='" + (this.razon_social != null ? this.razon_social : "") + "', cuit='" + (this.cuit != null ? this.cuit : "") + "', direccion='" + (this.direccion != null ? this.direccion : "") + "', telefono='" + (this.telefono != null ? this.telefono : "") + "', fax='" + (this.fax != null ? this.fax : "") + "', email='" + (this.email != null ? this.email : "") + "', gravado=" + this.gravado + ", rural=" + this.rural + ", monotributo=" + this.monotributo + ", familia=" + this.familia + ", enactividad=" + this.enactividad + ", clasicYAcord=" + this.clasic + "}";
+   }
+}
