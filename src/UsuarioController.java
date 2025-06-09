@@ -1,6 +1,7 @@
 package src;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,12 +15,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import src.Utilidades.ComboItem;
 import javafx.event.ActionEvent;
+import javafx.scene.image.ImageView;
 
 
 public class UsuarioController {
@@ -34,10 +37,10 @@ public class UsuarioController {
     private MenuItem smnuABMCprestaciones;
     private MenuItem smnCargaOrdenes;
     @FXML private MenuItem smnuABMCOs;
+    @FXML private MenuItem smnuSalir;
 
 
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         System.out.println("UsuarioController inicializado");
 
         if (smnuABMusu != null) {
@@ -61,16 +64,7 @@ public class UsuarioController {
         } else{
             System.out.println("El MenuItem  no está vinculado correctamente.");
         }
-    }
-
-    //if (smnuABMPrestaciones != null) {
-      //  smnuABMPrestaciones.setOnAction(this::onCargarPantallaPrestaciones);  // Pasar el evento ActionEvent
-    //} else {
-    //    smnuABMPrestaciones.setOnAction(this::onCargarPantallaPrestaciones); 
-      //  System.out.println("El MenuItem smnuABMprestaciones no está vinculado correctamente.");
-    //}
-
-   
+    } 
 
     // Método para abrir la ventana de gestión de usuarios
     @FXML public void abrirPantallaGestionUsuarios(ActionEvent event) {  // Agregar ActionEvent como parámetro
@@ -127,7 +121,7 @@ public class UsuarioController {
     }
 }
     
-  @FXML public void AbrirPantallaCargadeOrdenes(ActionEvent event) {
+    @FXML public void AbrirPantallaCargadeOrdenes(ActionEvent event) {
         System.out.println("Se abrirá la pantalla de carga de órdenes metodo abrirpantallacargadeordenes.");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/pantallaCargaOrdenes.fxml"));
@@ -146,7 +140,13 @@ public class UsuarioController {
             System.out.println("se ha producido u  error");
         }
     }
-    
+    @FXML public void AbrirPantallaLiquidacion(ActionEvent event) {
+            System.out.println("En desarrollo");
+    }
+    @FXML public void OnSalirApp(ActionEvent event) {
+            System.out.println("En desarrollo");
+    }
 }
 
 
+ 

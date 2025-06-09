@@ -7,20 +7,21 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="GestionIUsuarios" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.GestionUsuariosController">
    <children>
-      <Label fx:id="lbltitulo" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="-1.0" text="GESTION DE USUARIOS" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.bottomAnchor="380.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="-1.0">
+      <Label fx:id="lbltitulo" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="-8.0" layoutY="-1.0" prefHeight="27.0" prefWidth="609.0" style="-fx-background-color: lightgray;" text="GESTION DE USUARIOS" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.bottomAnchor="574.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnnuevo" defaultButton="true" layoutX="66.0" layoutY="136.0" mnemonicParsing="false" onAction="#onNuevoClicked" text="Agregar Usuario" />
-      <Button fx:id="btngrabar" defaultButton="true" disable="true" layoutX="419.0" layoutY="561.0" mnemonicParsing="false" onAction="#onGrabarClicked" text="Grabar" />
-      <Button fx:id="btnbuscar" defaultButton="true" layoutX="420.0" layoutY="110.0" mnemonicParsing="false" text="Buscar" />
-      <TableView fx:id="grillaUsuario" layoutX="22.0" layoutY="140.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0">
+      <Button fx:id="btnnuevo" defaultButton="true" layoutX="33.0" layoutY="135.0" mnemonicParsing="false" onAction="#onNuevoClicked" text="Agregar Usuario" />
+      <Button fx:id="btngrabar" defaultButton="true" disable="true" layoutX="506.0" layoutY="287.0" mnemonicParsing="false" onAction="#onGrabarClicked" text="Grabar" />
+      <Button fx:id="btnbuscar" defaultButton="true" layoutX="520.0" layoutY="101.0" mnemonicParsing="false" onAction="#onBuscar" text="Buscar" />
+      <TableView fx:id="grillaUsuario" layoutX="12.0" layoutY="347.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="347.0">
         <columns>
             <TableColumn fx:id="col_usuario" prefWidth="75.0" text="USUARIO" />
             <TableColumn fx:id="col_apellido" prefWidth="75.0" text="APELLIDO" />
@@ -30,62 +31,67 @@
             <TableColumn fx:id="col_Telefono" prefWidth="75.0" text="TELEFONO" />
         </columns>
       </TableView>
-      <Label layoutY="172.0" text="Listado de usuarios" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="180.0">
+      <Label layoutX="23.0" layoutY="330.0" text="Listado de usuarios" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="387.0" AnchorPane.topAnchor="330.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-            <TextField id="txtid" fx:id="txtusuario" disable="true" layoutX="20.0" layoutY="468.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-            <TextField id="txtdescripcion" fx:id="txtapellido" disable="true" layoutX="193.0" layoutY="468.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+            <TextField id="txtid" fx:id="txtusuario" disable="true" layoutX="33.0" layoutY="189.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+            <TextField id="txtdescripcion" fx:id="txtapellido" disable="true" layoutX="206.0" layoutY="189.0" style="-fx-background-color: gray; -fx-border-color: black;" />
 
-            <Label layoutX="20.0" layoutY="455.0" text="USUARIO">
+            <Label layoutX="33.0" layoutY="176.0" text="USUARIO">
          <font>
             <Font name="System Bold" size="10.0" />
          </font></Label>
-            <Label layoutX="200.0" layoutY="454.0" text="APELLIDO">
+            <Label layoutX="213.0" layoutY="175.0" text="APELLIDO">
          <font>
             <Font name="System Bold" size="10.0" />
          </font></Label>
-            <Label layoutX="357.0" layoutY="453.0" text="NOMBRE">
+            <Label layoutX="370.0" layoutY="174.0" text="NOMBRE">
          <font>
             <Font name="System Bold" size="10.0" />
          </font></Label>
 
-      <ComboBox fx:id="cmbroles" layoutX="357.0" layoutY="518.0" prefWidth="150.0" />
-      <TextField id="txtdescripcion" fx:id="txtnombre" disable="true" layoutX="357.0" layoutY="468.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-      <TextField id="txtdescripcion" fx:id="txtemail" disable="true" layoutX="20.0" layoutY="518.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-      <TextField id="txtdescripcion" fx:id="txttelefono" disable="true" layoutX="193.0" layoutY="518.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-      <Label layoutX="20.0" layoutY="504.0" text="EMAIL">
+      <ComboBox fx:id="cmbroles" layoutX="370.0" layoutY="239.0" prefHeight="25.0" prefWidth="198.0" />
+      <TextField fx:id="txtnombre" disable="true" layoutX="370.0" layoutY="189.0" prefHeight="27.0" prefWidth="198.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <TextField fx:id="txtemail" disable="true" layoutX="33.0" layoutY="239.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <TextField fx:id="txttelefono" disable="true" layoutX="206.0" layoutY="239.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <Label layoutX="33.0" layoutY="225.0" text="EMAIL">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Label>
-      <Label layoutX="200.0" layoutY="504.0" text="TELEFONO">
+      <Label layoutX="213.0" layoutY="225.0" text="TELEFONO">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Label>
-      <TextField id="txtdescripcion" fx:id="txtcontrasena" disable="true" layoutX="20.0" layoutY="565.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-      <TextField id="txtconfirmarContrasena" fx:id="txtconfirmarContrasena" disable="true" layoutX="193.0" layoutY="565.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <TextField fx:id="txtcontrasena" disable="true" layoutX="33.0" layoutY="286.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <TextField fx:id="txtconfirmarContrasena" disable="true" layoutX="206.0" layoutY="286.0" style="-fx-background-color: gray; -fx-border-color: black;" />
       <!--TextField id="txtdescripcion" fx:id="TXTCONFIRMARCONTRASENA" disable="true" layoutX="193.0" layoutY="565.0" /> -->
 
-      <Label layoutX="20.0" layoutY="550.0" text="CONTRASENA">
+      <Label layoutX="33.0" layoutY="271.0" text="CONTRASENA">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Label>
-            <Label layoutX="200.0" layoutY="550.0" text="CONFIRMAR CONTRASENA">
+            <Label layoutX="213.0" layoutY="271.0" text="CONFIRMAR CONTRASENA">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Label>
-      <Label layoutX="357.0" layoutY="504.0" text="ROL">
+      <Label layoutX="370.0" layoutY="225.0" text="ROL">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Label>
-      <RadioButton layoutX="74.0" layoutY="71.0" mnemonicParsing="false" text="Por usuario" />
-      <RadioButton layoutX="193.0" layoutY="71.0" mnemonicParsing="false" text="Por rol" />
-      <TextField id="txtid" fx:id="txtusuario1" disable="true" layoutX="302.0" layoutY="66.0" prefHeight="27.0" prefWidth="274.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <RadioButton fx:id="rbtnPorUsuario" layoutX="74.0" layoutY="71.0" mnemonicParsing="false"  text="Por usuario">
+         <toggleGroup>
+            <ToggleGroup fx:id="busqueda" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbtnOirRol" layoutX="170.0" layoutY="71.0" mnemonicParsing="false"  text="Por rol" toggleGroup="$busqueda" />
+      <TextField id="txtid" fx:id="txtusuario" disable="true" layoutX="242.0" layoutY="66.0" prefHeight="27.0" prefWidth="334.0" style="-fx-background-color: gray; -fx-border-color: black;" />
+      <Button fx:id="btnModificar" defaultButton="true" layoutX="147.0" layoutY="135.0" mnemonicParsing="false" onAction="#onModificarClicked" text="Modificar Usuario" />
+      <Button fx:id="btnEliminar" defaultButton="true" layoutX="267.0" layoutY="135.0" mnemonicParsing="false" onAction="#onEliminarClicked" text="Eliminar Usuario" />
    </children>
 </AnchorPane>

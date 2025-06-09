@@ -91,19 +91,19 @@
             <children>
             
                  <Label layoutX="10.0" layoutY="5.0" text="Gravado:" />
-                 <CheckBox fx:id="chkRural" layoutX="91.0" layoutY="20.0" />
+                 <CheckBox fx:id="chkRural" layoutX="78.0" layoutY="20.0" />
             
-                 <Label layoutX="87.0" layoutY="5.0" text="Rural:" />
-                 <CheckBox fx:id="chkMonotributo" layoutX="144.0" layoutY="20.0" />
+                 <Label layoutX="75.0" layoutY="5.0" text="Rural:" />
+                 <CheckBox fx:id="chkMonotributo" layoutX="136.0" layoutY="20.0" />
             
-                 <Label layoutX="128.0" layoutY="5.0" prefHeight="15.0" prefWidth="76.0" text="Monotributo:" />
+                 <Label layoutX="118.0" layoutY="5.0" prefHeight="15.0" prefWidth="76.0" text="Monotributo:" />
                  <CheckBox fx:id="chkFamilia" layoutX="208.0" layoutY="19.0" />
             
                  <Label layoutX="199.0" layoutY="5.0" text="Familia:" />
                  <CheckBox fx:id="chkGravado" layoutX="27.0" layoutY="20.0" />
             
-                 <Label layoutX="255.0" layoutY="5.0" text="En Actividad:" />
-                 <CheckBox fx:id="chkEnActividad" layoutX="276.0" layoutY="20.0" />
+                 <Label layoutX="259.0" layoutY="5.0" text="En Actividad:" />
+                 <CheckBox fx:id="chkEnActividad" layoutX="282.0" layoutY="20.0" />
             
                  <Label layoutX="346.0" layoutY="5.0" text="Clasic y Acord:" />
                  <CheckBox fx:id="chkClasic" layoutX="370.0" layoutY="20.0" />
@@ -112,7 +112,7 @@
       </children>
    </Pane>
    <Button fx:id="btnnuevo" layoutX="31.0" layoutY="561.0" onAction="#onNuevo" text="Nuevo" />
-   <Button fx:id="btnbuscar" layoutX="165.0" layoutY="561.0" text="Buscar" />
+   <Button fx:id="btnbuscar" layoutX="304.0" layoutY="561.0" onAction="#onBuscar" text="Buscar" />
    <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="-2.0" prefHeight="25.0" prefWidth="750.0" style="-fx-background-color: lightgray;" text="PANTALLA GESTION DE PRESTADORES">
       <font>
          <Font name="System Bold" size="18.0" />
@@ -139,7 +139,9 @@
       </columnResizePolicy>
    </TableView>
    <TextField fx:id="txtid" layoutX="11.0" layoutY="51.0" prefColumnCount="0" prefHeight="26.0" prefWidth="73.0" style="-fx-background-color: orange; -fx-border-color: black;" />
-   <TextField fx:id="txtdireccion" layoutX="10.0" layoutY="94.0" prefHeight="26.0" prefWidth="189.0" style="-fx-background-color: orange; -fx-border-color: black;" />
+   <TextField fx:id="txtdireccion" layoutX="10.0" layoutY="95.0" prefHeight="26.0" prefWidth="189.0" style="-fx-background-color: orange; -fx-border-color: black;" />
+   <Button fx:id="btnmodificar" layoutX="228.0" layoutY="561.0" onAction="#onModificar" text="Modificar" />
+   <Button fx:id="btneliminar" layoutX="160.0" layoutY="561.0" onAction="#onEliminar" text="Eliminar" />
    <padding>
       <Insets bottom="2.0" left="2.0" right="5.0" top="5.0" />
    </padding>

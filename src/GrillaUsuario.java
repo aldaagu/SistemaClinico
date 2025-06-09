@@ -11,12 +11,13 @@ public class GrillaUsuario {
     private String email;           // Correo electrónico
 
     // Constructor
-    public GrillaUsuario(String usuario, String nombre, String apellido,
+    public GrillaUsuario(String usuario,  String apellido,String nombre,
                          String rol, String telefono, String email) {
         //this.idUsuario = idUsuario;
         this.usuario = usuario;
-        this.nombre = nombre;
         this.apellido = apellido;
+        this.nombre = nombre;
+        
         this.rol = rol;
         this.telefono = telefono;
         this.email = email;

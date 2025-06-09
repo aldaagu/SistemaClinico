@@ -19,7 +19,7 @@ public class Utilidades {
 
     public static void cargarCombo(ComboBox<ComboItem> combo, String sql, String campoVisible, String campoValor) {
         combo.getItems().clear();
-        System.out.println("Ejecutando consulta: " + sql);
+        
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971");
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -144,7 +144,6 @@ public class Utilidades {
         return true;
     }
 
-   
     // Función para mostrar el error
     public void mostrarError() {
         if (mensajeError != null && !mensajeError.isEmpty()) {
@@ -155,7 +154,14 @@ public class Utilidades {
             alert.showAndWait();
         }
     }
-
+    
+    public static void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null); // No muestra encabezado extra
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
     //public static void cambiarColorBoton(Button boton) {
    //     boton.setStyle("-fx-background-color: #ff9900;"); // Cambia el color a naranja
 

@@ -95,14 +95,11 @@
       <TableView fx:id="grillaPrestacionesXOrdenes" layoutX="7.0" layoutY="444.0" prefHeight="153.0" prefWidth="793.0" style="-fx-border-color: black;">
          <columns>
             <TableColumn fx:id="col_id" prefWidth="75.0" text="id_orden" />
-            <TableColumn fx:id="col_prestacion" text="id_prestacion" />
-            <TableColumn fx:id="col_Edad" minWidth="0.0" prefWidth="63.0" text="Edad" />
-            <TableColumn fx:id="col_Ingreso" minWidth="0.0" prefWidth="28.0" text="Ingreso" />
-            <TableColumn fx:id="col_Egreso" minWidth="0.0" prefWidth="46.0" text="Egreso" />
-            <TableColumn fx:id="col_Domicilio" minWidth="0.0" prefWidth="0.0" text="Domicilio" />
-            <TableColumn fx:id="col_Localidad" prefWidth="56.0" text="Localidad" />
-            <TableColumn fx:id="col_Diagnostico" prefWidth="55.0" text="Diagnostico" />
-            <TableColumn fx:id="col_Condicion" prefWidth="75.0" text="Cond.Alta" />
+            <TableColumn fx:id="col_prestacion" prefWidth="55.0" text="id_prestacion" />
+            <TableColumn fx:id="col_Ingreso" minWidth="0.0" prefWidth="77.0" text="Ingreso" />
+            <TableColumn fx:id="col_Egreso" minWidth="0.0" prefWidth="37.0" text="Egreso" />
+            <TableColumn fx:id="col_Diagnostico" minWidth="0.0" prefWidth="31.0" text="Diagnostico" />
+            <TableColumn fx:id="col_Condicion" prefWidth="55.0" text="Cond.Alta" />
             <TableColumn fx:id="col_Sala" prefWidth="75.0" text="Sala" />
             <TableColumn fx:id="col_Uti" prefWidth="75.0" text="UTI" />
             <TableColumn fx:id="col_Usi" prefWidth="75.0" text="USI" />
@@ -118,7 +115,7 @@
       <Button fx:id="BtnEliminar" layoutX="621.0" layoutY="58.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Eliminar" />
       <Button fx:id="btnModificar" layoutX="727.0" layoutY="58.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Modificar" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="27.0" layoutX="7.0" layoutY="416.0" stroke="BLACK" strokeType="INSIDE" width="283.0" />
-      <Button fx:id="BtnFiltrar" contentDisplay="CENTER" layoutX="15.0" layoutY="418.0" minHeight="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="67.0" style="-fx-background-color: orange;" text="Filtrar" textAlignment="CENTER" />
+      <Button fx:id="BtnFiltrar" contentDisplay="CENTER" layoutX="215.0" layoutY="418.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onFiltrar" prefHeight="21.0" prefWidth="67.0" style="-fx-background-color: orange;" text="Filtrar" textAlignment="CENTER" />
       <Button fx:id="btnGrabar" cancelButton="true" layoutX="532.0" layoutY="415.0" mnemonicParsing="false" onAction="#onbtnGrabar" style="-fx-background-color: orange; -fx-border-color: black;" text="Grabar">
          <font>
             <Font name="Alef Bold" size="12.0" />

@@ -35,8 +35,7 @@ public class PrestacionesController {
     private ModoOperacion modoActual = ModoOperacion.NINGUNO;
     private boolean modoNuevo = false;
 
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         Utilidades.habilitarCampos(false, new TextField[]{txtid, txtprestacion}, cmbtipoprestacion);
         btngrabar.setDisable(true);
 
@@ -117,8 +116,7 @@ public class PrestacionesController {
         }
     }
 
-    @FXML
-    public void onCargarPantallaPrestaciones(ActionEvent event) {
+    @FXML public void onCargarPantallaPrestaciones(ActionEvent event) {
         System.out.println("Se cargará la pantalla de prestaciones.");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/PantallaGestionPrestaciones.fxml"));
@@ -136,8 +134,7 @@ public class PrestacionesController {
         }
     }
 
-    @FXML
-    private void onNuevoClicked(ActionEvent event) {
+    @FXML private void onNuevoClicked(ActionEvent event) {
         // Limpiar campos y habilitar campos
         txtid.setText(String.valueOf(obtenerNuevoIdPrestacion()));
         txtprestacion.setText("");
@@ -148,8 +145,7 @@ public class PrestacionesController {
         txtprestacion.requestFocus();
     }
 
-    @FXML
-    private void onGrabarClicked(ActionEvent event) {
+    @FXML private void onGrabarClicked(ActionEvent event) {
         String nombre_prestacion = txtprestacion.getText();
         int id = Integer.parseInt(txtid.getText());
 

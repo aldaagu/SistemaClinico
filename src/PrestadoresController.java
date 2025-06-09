@@ -12,11 +12,15 @@ import javafx.event.ActionEvent;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import src.Utilidades;
+import src.ClasePrestadores;
 
 public class PrestadoresController {
     @FXML private TextField txtid;
@@ -52,30 +56,20 @@ public class PrestadoresController {
     @FXML private  TableColumn<GrillaPrestadores, Boolean> col_enactividad;
     @FXML private TableColumn<GrillaPrestadores, Boolean> col_clasic;
 
-    @FXML
-private RadioButton rbtnSeparadas;
-@FXML
-private RadioButton rbtnJuntas;
-@FXML
-private RadioButton rbtnSermax;
-@FXML
-private RadioButton rbtnServiciosAsistenciales;
-@FXML
-private RadioButton rbtnFacturacionSermex;
-@FXML
-private RadioButton rbtnOspat;
-@FXML
-private RadioButton rbtnSi;
-@FXML
-private RadioButton rbtnNo;
+    @FXML private RadioButton rbtnSeparadas;
+    @FXML private RadioButton rbtnJuntas;
+    @FXML private RadioButton rbtnSermax;
+    @FXML private RadioButton rbtnServiciosAsistenciales;
+    @FXML private RadioButton rbtnFacturacionSermex;
+    @FXML private RadioButton rbtnOspat;
+    @FXML private RadioButton rbtnSi;
+    @FXML private RadioButton rbtnNo;
 
     @FXML private Button btnnuevo;
     @FXML private Button btnguardar;
     @FXML private Button btnbuscar;
 
     @FXML private TableView<GrillaPrestadores> grillaPrestadores;
-   // @FXML private TableView<GrillaPrestador> grillaPrestadores;
-
 
     private enum ModoOperacion { NINGUNO, NUEVO, MODIFICAR }
     private ModoOperacion modo = ModoOperacion.NINGUNO;
@@ -179,19 +173,40 @@ private void cargarPrestadoresDesdeBD() {
 }
 
 @FXML private void onGuardar() {
-    System.out.println("ejecuta metodo insertarPrestador");
-    System.out.println("modo en onguardaR=" + modo);
-        if (modo == ModoOperacion.NUEVO) {
-            System.out.println("ejecuta metodo insertarPrestador");
-            insertarPrestador();
-        }
-        modo = ModoOperacion.NINGUNO;
-        habilitarCampos(false);
-        cargarPrestadoresDesdeBD();
+    if (modo == ModoOperacion.NUEVO) {
+    try {
+        ClasePrestadores prestador = new ClasePrestadores(
+            0, //Integer.parseInt(txtid.getText()),
+            txtrazon_social.getText().trim(),
+            txtcuit.getText().trim(),
+            txtdireccion.getText().trim(),
+            txttelefono.getText().trim(),
+            txtfax.getText().trim(),
+            txtemail.getText().trim(),
+            chkGravado.isSelected(),
+            chkRural.isSelected(),
+            chkMonotributo.isSelected(),
+            chkFamilia.isSelected(),
+            chkEnActividad.isSelected(),
+            chkClasic.isSelected()
+        );
+        prestador.guardarPrestadorEnBD();
+        txtid.setText(String.valueOf(prestador.getId_prestador()));
+        Utilidades.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Prestador registrado correctamente.");
+        limpiarCampos();
+        cargarPrestadoresDesdeBD(); // método que recarga la tabla
         btnguardar.setDisable(false);
-    }
 
-    private void insertarPrestador() {
+    } catch (NumberFormatException e) {
+        Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "El ID debe ser un número.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error al guardar en la base de datos.");
+    }
+     }
+ }
+
+    /*private void insertarPrestador() {
         String sql = "INSERT INTO prestadores ( razon_social, cuit, direccion, telefono, " +
         "fax, email, Gravado, Rural, Monotributo, Familia, EnActividad, ClasicYAcord)" +
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -222,7 +237,7 @@ private void cargarPrestadoresDesdeBD() {
         } catch (SQLException e) {
             mostrarAlerta("Error al guardar: " + e.getMessage(), Alert.AlertType.ERROR);
         }
-    }
+    }*/
 
     private void limpiarCampos() {
         txtid.clear();
@@ -267,21 +282,21 @@ private void cargarPrestadoresDesdeBD() {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+    
     private String getCondicionFiscalSeleccionada() {
-    List<String> condiciones = new ArrayList<>();
+        List<String> condiciones = new ArrayList<>();
 
-    if (chkGravado.isSelected()) condiciones.add("Gravado");
-    //if (chkNoGravado.isSelected()) condiciones.add("No Gravado");
-    if (chkRural.isSelected()) condiciones.add("Rural");
-    if (chkMonotributo.isSelected()) condiciones.add("Monotributo");
-    if (chkFamilia.isSelected()) condiciones.add("Familia");
+        if (chkGravado.isSelected()) condiciones.add("Gravado");
+        //if (chkNoGravado.isSelected()) condiciones.add("No Gravado");
+        if (chkRural.isSelected()) condiciones.add("Rural");
+        if (chkMonotributo.isSelected()) condiciones.add("Monotributo");
+        if (chkFamilia.isSelected()) condiciones.add("Familia");
 
-    return String.join(", ", condiciones); // Ej: "Gravado, Rural"
-}
+        return String.join(", ", condiciones); // Ej: "Gravado, Rural"
+    }
 
-@FXML
-public void onCargarPantallaPrestadores(ActionEvent event) {
-    System.out.println("Se cargará la panta lla de prestaciones.");
+@FXML public void onCargarPantallaPrestadores(ActionEvent event) {
+    System.out.println("Se cargará la pantalla de prestaciones.");
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/prestadores.fxml"));
         Parent root = loader.load();
@@ -289,17 +304,15 @@ public void onCargarPantallaPrestadores(ActionEvent event) {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Gestión de Prestadpres");
+        stage.setTitle("Gestión de Prestadores");
         stage.centerOnScreen();
         stage.show();
-
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
 
-    private void configureTableColumns() {
-        
+private void configureTableColumns() {
         col_id.setCellValueFactory(new PropertyValueFactory<>("id_prestador"));
         col_prestador.setCellValueFactory(new PropertyValueFactory<>("razon_social"));
         col_cuit.setCellValueFactory(new PropertyValueFactory<>("cuit"));
@@ -334,10 +347,51 @@ private void cargarDatosEnFormulario(GrillaPrestadores prestador) {
 
     //rbtnSeparadas
     //rbtnJuntas.setSelected(prestador.)
-    //rbtnServiciosAsistenciales.setSelected(prestador.)
+    //rbtnServiciosAsistenciales.set Selected(prestador.)
+}
+
+@FXML private void onEliminar() {
+    try {
+        int id = Integer.parseInt(txtid.getText().trim());
+
+        // Confirmación antes de eliminar
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setHeaderText("¿Estás seguro que deseas eliminar este prestador?");
+        confirmacion.setContentText("ID del prestador: " + id);
+
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            ClasePrestadores prestador = new ClasePrestadores();
+            prestador.setId_prestador(id);
+            prestador.eliminarPrestadorDeBD();
+
+            Utilidades.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Prestador eliminado correctamente.");
+            limpiarCampos();
+            cargarPrestadoresDesdeBD();
+        } else {
+            Utilidades.mostrarAlerta(Alert.AlertType.INFORMATION, "Cancelado", "La operación de eliminación fue cancelada.");
+        }
+
+    } catch (NumberFormatException e) {
+        Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "El ID debe ser un número.");
+    } catch (SQLException e) {
+        Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "No se pudo eliminar el prestador.");
+        e.printStackTrace();
+    }
+}
+
+@FXML private void onBuscar(ActionEvent event) {
+    // Lógica de búsqueda acá
+    System.out.println("Método onBuscar() en preparacion");
+}
+
+@FXML private void onModificar(ActionEvent event) {
+    // Lógica de búsqueda acá
+    System.out.println("Método onModificar() en preparacion");
 }
 
 
+} //llave de clase
 
-}
 

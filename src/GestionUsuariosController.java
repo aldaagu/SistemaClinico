@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 import src.Utilidades.ComboItem;
-
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import src.Utilidades.ComboItem;
+import src.ClaseUsuario;
 import javafx.scene.control.TableRow;
 
 
@@ -73,16 +73,18 @@ public class GestionUsuariosController {
     @FXML private TextField txtcontrasena;
     @FXML private Button btnnuevo;
     @FXML private Button btngrabar;
+     @FXML private Button btnEliminar;
+     @FXML private Button btnModificar;
+     @FXML private Button btnBuscar;
     
     @FXML private TableView<GrillaUsuario> grillaUsuario;
-    //@FXML private TableColumn<GrillaUsuario, Integer> col_id;
+ 
     @FXML private TableColumn<GrillaUsuario, String> col_usuario;
-    @FXML private TableColumn<GrillaUsuario, String> col_nombre;
     @FXML private TableColumn<GrillaUsuario, String> col_apellido;
+    @FXML private TableColumn<GrillaUsuario, String> col_nombre;
     @FXML private TableColumn<GrillaUsuario, String> col_rol;
-    @FXML private TableColumn<GrillaUsuario, String> col_Telefono;
     @FXML private TableColumn<GrillaUsuario, String> col_email;
-    //@FXML private ComboBox<String> cmbroles;
+    @FXML private TableColumn<GrillaUsuario, String> col_Telefono;
     @FXML private ComboBox<ComboItem> cmbroles;
     
 
@@ -101,7 +103,7 @@ private ModoOperacion modoActual = ModoOperacion.NINGUNO;
 
 @FXML public void onNuevoClicked(ActionEvent event){
     
-        System.out.println("click en nuevo");
+        
         modoActual = ModoOperacion.NUEVO;
         modoNuevo = true;
         limpiarCampos();
@@ -112,7 +114,7 @@ private ModoOperacion modoActual = ModoOperacion.NINGUNO;
         btngrabar.setDisable(false); // Habilita el botón grabar
     }
     
-//@FXML public void onModificarClicked(ActionEvent event) {
+@FXML public void onModificarClicked(ActionEvent event) {
     //@FXML private void onModificarClicked() {
         // Asegúrate de que haya un usuario seleccionado en la tabla
        // mostrarAlerta("antes", "de cargar usuarioseleccionado");
@@ -144,49 +146,56 @@ private ModoOperacion modoActual = ModoOperacion.NINGUNO;
             // Si no hay ningún usuario seleccionado, mostrar una alerta
    //        mostrarAlerta("Error", "Debe seleccionar un usuario para modificar.");
      //   }
-   //}
-    //8990
+   }
+    
 @FXML public void onGrabarClicked(ActionEvent event) {
     try {
-        // Verificar si es un nuevo usuario y si el usuario ya existe en la base de datos
-        if (modoActual == ModoOperacion.NUEVO) {
-            // Verificar si el usuario ya existe en la base de datos
-            if (usuarioExiste(txtusuario.getText())) {
-                System.out.println("El usuario ya existe.");
-                // Mostrar mensaje de error, por ejemplo con un alert:
-                mostrarAlerta("Error", "El usuario ya existe.");
-                return; // Salir del método sin hacer nada
-            }
+        ComboItem rolSeleccionado = cmbroles.getValue();
+        if (rolSeleccionado == null) {
+            mostrarAlerta("Error", "Debe seleccionar un rol.");
+            return;
+        }
 
-            // Si no existe, realizar el alta en la base de datos
-            if (altaUsuario()) {
-                mostrarAlerta("Éxito", "Usuario creado exitosamente.");
+        // Crear y llenar instancia de ClaseUsuario
+        ClaseUsuario usuario = new ClaseUsuario();
+        usuario.setApellido(txtapellido.getText().trim());
+        usuario.setNombre(txtnombre.getText().trim());
+        usuario.setContrasena(txtcontrasena.getText().trim());
+        usuario.setCod_tusuario(rolSeleccionado.getId());
+        usuario.setBloquear("NO"); // o editable
+        usuario.setTel(txttelefono.getText().trim());
+        usuario.setEmail(txtemail.getText().trim());
+
+        if (modoActual == ModoOperacion.NUEVO) {
+            boolean exito = usuario.alta(conexion);
+            if (exito) {
+                //txtusuario.setText(String.valueOf(usuario.getUsuario())); // Mostrar el ID generado
+                mostrarAlerta("Éxito", "Usuario creado correctamente.");
                 limpiarCampos();
                 cargarDatos();
             } else {
-                mostrarAlerta("Error", mensajeError);  // Mostrar el error real
+                mostrarAlerta("Error", "No se pudo crear el usuario.");
             }
-
         } else if (modoActual == ModoOperacion.MODIFICAR) {
-            // Si es modo modificar, se ejecuta la modificación
-            if (modificarUsuario()) {
-                System.out.println("Usuario modificado correctamente");
-                mostrarAlerta("Éxito", "Usuario modificado exitosamente.");
+            // Asegurar que se cargó el ID
+            if (txtusuario.getText().trim().isEmpty()) {
+                mostrarAlerta("Error", "El campo de ID está vacío.");
+                return;
+            }
+            
+            boolean exito = usuario.modificar(conexion);
+            if (exito) {
+                mostrarAlerta("Éxito", "Usuario modificado correctamente.");
                 limpiarCampos();
-                cargarDatos();  // Recargar la lista para mostrar los cambios
+                cargarDatos();
             } else {
-                mostrarAlerta("Error", mensajeError);
+                mostrarAlerta("Error", "No se pudo modificar el usuario.");
             }
         }
-    } //catch (SQLException e) {
-        // Manejo de excepción SQL
-      //  mostrarAlerta("Error de base de datos", "Hubo un error al procesar la solicitud.");
-        //e.printStackTrace();  // Imprimir el error para depuración
-    //} 
-    catch (Exception e) {
-        // Capturar cualquier otra excepción
+
+    } catch (Exception e) {
         mostrarAlerta("Error", "Ocurrió un error inesperado.");
-        e.printStackTrace();  // Imprimir el error para depuración
+        e.printStackTrace();
     }
 }
 
@@ -241,7 +250,7 @@ public boolean modificarUsuario() {
 }
 
 public boolean altaUsuario() {
-    mensajeError = "";  // Limpiar error anterior
+    mensajeError = "";  
     try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971");
             //String sql = "INSERT INTO usuarios (usuario, nombre, apellido, tel, email, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -284,6 +293,25 @@ private void mostrarAlerta(String titulo, String mensaje) {
             e.printStackTrace();
             System.out.println("Error al conectar con la base de datos.");
         }
+
+        grillaUsuario.getSelectionModel().selectedItemProperty().addListener(
+            (ObservableValue<? extends GrillaUsuario> obs, GrillaUsuario oldSelection, GrillaUsuario newSelection) -> {
+                if (newSelection != null) {
+                    txtusuario.setText(newSelection.getUsuario());
+                    txtapellido.setText(newSelection.getApellido());
+                    txtnombre.setText(newSelection.getNombre());
+
+                    for (ComboItem item : cmbroles.getItems()) {
+                        if (item.toString().equals(newSelection.getRol())) {
+                            cmbroles.getSelectionModel().select(item);
+                            break;
+                        }
+                    }
+                    txttelefono.setText(newSelection.getTelefono());
+                    txtemail.setText(newSelection.getEmail());
+                }
+            }
+        );
 
         btngrabar.setDisable(true);
 
@@ -365,11 +393,11 @@ private void habilitarCampos(boolean habilitar) {
 private void configureTableColumns() {
         //col_id.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
         col_usuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
-        col_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         col_apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
-        col_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
-        col_Telefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        col_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        col_rol.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        col_Telefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
 }
 
 private void cargarDatos() {
@@ -378,22 +406,21 @@ private void cargarDatos() {
         
             try(Statement statement = conexion.createStatement()) {
             // Consulta SQL
-            String query = "SELECT u.usuario, u.nombre, u.apellido, r.descripcion AS rol, " +
-                    "u.tel, u.email FROM usuarios u JOIN roles r ON u.id_rol = r.id_rol";
+            String query = "SELECT u.usuario, u.apellido,u.nombre, r.descripcion, " +
+                    "u.email, u.tel FROM usuarios u JOIN roles r ON u.cod_TUSUARIO = r.id_rol";
             ResultSet resultSet = statement.executeQuery(query);
             // Rellenar la lista de usuarios
             while (resultSet.next()) {
                 listaUsuarios.add(new GrillaUsuario(
                        // resultSet.getInt("idusuario"),
                         resultSet.getString("usuario"),
-                        resultSet.getString("nombre"),
                         resultSet.getString("apellido"),
-                        resultSet.getString("rol"),
-                        resultSet.getString("tel"),
-                        resultSet.getString("email")
+                        resultSet.getString("nombre"),
+                        resultSet.getString("descripcion"), 
+                        resultSet.getString("email"),
+                        resultSet.getString("tel")
                 ));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -403,12 +430,17 @@ private void cargarDatos() {
 }
 
     private void cargarDatosFormulario(GrillaUsuario usuario) {
-        txtusuario.setText(usuario.getUsuario());
-        txtnombre.setText(usuario.getNombre());
         txtapellido.setText(usuario.getApellido());
-        txttelefono.setText(usuario.getTelefono());
+        txtnombre.setText(usuario.getNombre()); 
+        for (ComboItem item : cmbroles.getItems()) {
+            if (item.toString().equals(usuario.getRol())) {
+                cmbroles.getSelectionModel().select(item);
+                break;
+            }
+        }
         txtemail.setText(usuario.getEmail());
-        // y el resto de los campos...
+        txttelefono.setText(usuario.getTelefono());
+        
     }
     
     private void limpiarCampos(){
@@ -421,23 +453,35 @@ private void cargarDatos() {
     }
 
     private boolean usuarioExiste(String usuario) {
-    String sql = "SELECT COUNT(*) FROM usuarios WHERE usuario = ?";
-
-    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-        stmt.setString(1, usuario);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            System.out.println("El usuario "+usuario+" ya existe");
-            int count = rs.getInt(1);
-            return count > 0; // true si ya existe
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE usuario = ?";
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setString(1, usuario);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("El usuario "+usuario+" ya existe");
+                int count = rs.getInt(1);
+                return count > 0; // true si ya existe
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("El usuario "+usuario+" NO existe");
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("El usuario "+usuario+" NO existe");
-    }
-        return false; // Por defecto, no existe (o error)
+            return false; // Por defecto, no existe (o error)
     }
 
-   
+@FXML public void onEliminarClicked(ActionEvent event) {
 }
 
+@FXML public void onBuscar(ActionEvent event) {
+    // Por ahora solo para probar
+    System.out.println("Buscar clickeado");
+}
+
+@FXML public void onBusqueda(ActionEvent event) {
+    System.out.println("Método onBusqueda() ejecutado.");
+}
+
+
+
+
+}
