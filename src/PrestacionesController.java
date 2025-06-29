@@ -2,6 +2,9 @@ package src;
 
 import java.io.IOException;
 import java.sql.*;
+
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +18,6 @@ import javafx.stage.Stage;
 import src.Utilidades.ComboItem;
 
 public class PrestacionesController {
-
     @FXML private TextField txtid;
     @FXML private TextField txtprestacion;
     @FXML private ComboBox<ComboItem> cmbtipoprestacion;
@@ -25,6 +27,9 @@ public class PrestacionesController {
     @FXML private TableColumn<GrillaPrestaciones, String> col_tipo;
     @FXML private Button btnnuevo;
     @FXML private Button btngrabar;
+    @FXML private Button btnEliminar;
+    @FXML private Button btnModificar;
+    @FXML private Button btnConsultar;
 
     private ObservableList<GrillaPrestaciones> listaPrestaciones = FXCollections.observableArrayList();
 
@@ -52,20 +57,53 @@ public class PrestacionesController {
         cargarDatosPrestaciones();
 
         // Manejo de clics en la tabla
-        grillaprestacion.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Verifica si el clic es doble
-                GrillaPrestaciones seleccionada = grillaprestacion.getSelectionModel().getSelectedItem();
-                if (seleccionada != null) {
-                    // Maneja la lógica cuando se selecciona una fila al hacer doble clic
-                    cargarDatosFormulario(seleccionada);
-                    btngrabar.setDisable(false);
-                    txtid.setDisable(false);
-                    txtprestacion.setDisable(false);
-                    cmbtipoprestacion.setDisable(false);
-                }
+        //onUsuarioSeleccionado();
+        grillaprestacion.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                onUsuarioSeleccionado();  // llama tu método al seleccionar
             }
-        });
+});
     }
+    
+    private ClasePrestaciones obtenerPrestacionSeleccionadaDesdeGrilla() {
+    GrillaPrestaciones seleccionada = grillaprestacion.getSelectionModel().getSelectedItem();
+
+    if (seleccionada == null) {
+        Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe seleccionar una prestación.");
+        return null;
+    }
+
+    try {
+        int id = seleccionada.getId_prestacion();
+        String nombre = seleccionada.getNombre_prestacion();
+        String descripcionTipo = seleccionada.getNombre_tipo_prestacion();  // Corregido para usar el nombre del tipo
+
+        int tipo = -1;
+
+        String sql = "SELECT id_tipo_prestacion FROM tipo_prestaciones WHERE nombre_tipo_prestacion = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971");
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, descripcionTipo);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                tipo = rs.getInt("id_tipo_prestacion");
+            } else {
+                Utilidades.mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "No se encontró el tipo de prestación: " + descripcionTipo);
+                return null;
+            }
+        } // fin try-with-resources
+
+        return new ClasePrestaciones(id, nombre, tipo);
+
+    } catch (Exception e) {
+        Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error al obtener los datos de la prestación seleccionada: " + e.getMessage());
+        return null;
+    }
+}
+
 
     private void cargarDatosFormulario(GrillaPrestaciones prestacion) {
         if (prestacion != null) {
@@ -98,7 +136,7 @@ public class PrestacionesController {
 
             txtid.setText(String.valueOf(prestaciones.getId_prestacion()));
             txtprestacion.setText(prestaciones.getNombre_prestacion());
-
+            txtprestacion.setDisable(false);
             // Habilitar los campos
             btnnuevo.setDisable(true);
             btngrabar.setDisable(false);
@@ -258,5 +296,54 @@ public class PrestacionesController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
+@FXML  private void onEliminar(ActionEvent event) {
+    ClasePrestaciones prestacion = obtenerPrestacionSeleccionadaDesdeGrilla();
+
+    if (prestacion == null) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe seleccionar una prestación para eliminar.");
+        return;
+    }
+    // Llamar al método eliminar() que tiene toda la lógica interna
+    if (prestacion.eliminar()) {
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Prestación eliminada correctamente.");
+        cargarDatosPrestaciones();  // Refrescar tabla
+        txtid.clear();
+        txtprestacion.clear();
+        cmbtipoprestacion.getSelectionModel().clearSelection();
+        btngrabar.setDisable(true);
+        btnnuevo.setDisable(false);
+    } else {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", prestacion.getMensajeError());
+    }
+}
+
+
+@FXML private void onModificar(ActionEvent event){
+     ClasePrestaciones prestacion = obtenerPrestacionSeleccionadaDesdeGrilla();
+    String nombrePrestacion = txtprestacion.getText();
+    int idPrestacion = Integer.parseInt(txtid.getText());
+
+    if (prestacion == null) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe seleccionar una prestación para eliminar.");
+        return;
+    }
+    // Llamar al método eliminar() que tiene toda la lógica interna
+    if (prestacion.modificar(idPrestacion,nombrePrestacion)) {
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Prestación modifiicada correctamente.");
+        cargarDatosPrestaciones();  // Refrescar tabla
+        txtid.clear();
+        txtprestacion.clear();
+        cmbtipoprestacion.getSelectionModel().clearSelection();
+        btngrabar.setDisable(true);
+        btnnuevo.setDisable(false);
+    } else {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", prestacion.getMensajeError());
+    }
+    System.out.println(">>> Fin de onModificar");
+}
+@FXML private void onConsultar(ActionEvent event){
+    System.out.println("onConsultar");
+}
 }
 

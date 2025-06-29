@@ -3,24 +3,24 @@ package src;
 
 public class GrillaUsuario {
     //private int idUsuario;          // ID del usuario
-    private String usuario;         // Nombre de usuario
+    private String Idusuario;         // Nombre de usuario
+    private String apellido;
     private String nombre;          // Nombre del usuario
-    private String apellido;        // Apellido del usuario
     private String rol;             // Descripción del rol
-    private String telefono;        // Teléfono
-    private String email;           // Correo electrónico
+    private String email;        // Teléfono
+    private String telefono;           // Correo electrónico
 
     // Constructor
-    public GrillaUsuario(String usuario,  String apellido,String nombre,
-                         String rol, String telefono, String email) {
+    public GrillaUsuario(String idusuario,  String apellido,String nombre,
+                         String rol, String email, String telefono) {
         //this.idUsuario = idUsuario;
-        this.usuario = usuario;
+        this.Idusuario = idusuario;
         this.apellido = apellido;
         this.nombre = nombre;
         
         this.rol = rol;
-        this.telefono = telefono;
         this.email = email;
+        this.telefono = telefono;
     }
 
   // Métodos getters
@@ -28,8 +28,8 @@ public class GrillaUsuario {
    // return idUsuario;
 //}
 
-public String getUsuario() {
-    return usuario;
+public String getIdUsuario() {
+    return Idusuario;
 }
 
 public String getNombre() {
@@ -44,6 +44,7 @@ public String getRol() {
     return rol;
 }
 
+
 public String getTelefono() {
     return telefono;
 }
@@ -53,15 +54,14 @@ public String getEmail() {
 }
 
 
-@Override
-public String toString() {
+@Override public String toString() {
     return "GrillaUsuario{" +
-            "usuario='" + usuario + '\'' +
-            ", nombre='" + nombre + '\'' +
+            "  usuario='" + Idusuario + '\'' +
             ", apellido='" + apellido + '\'' +
+            ", nombre='" + nombre + '\'' +
             ", rol='" + rol + '\'' +
-            ", telefono='" + telefono + '\'' +
             ", email='" + email + '\'' +
+            ", telefono='" + telefono + '\'' +
             '}';
 }
 

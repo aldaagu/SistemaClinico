@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javafx.scene.control.Alert;
+
 
 public class ClasePrestadores {
     private int id_prestador;
@@ -203,6 +205,7 @@ public class ClasePrestadores {
         }
     }
 
-    } 
+    
+} 
 
 

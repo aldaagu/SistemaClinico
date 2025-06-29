@@ -1,36 +1,20 @@
 package src;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import src.Utilidades.ComboItem;
 import javafx.event.ActionEvent;
-import javafx.scene.image.ImageView;
-
 
 public class UsuarioController {
 
     //@FXML
     //private TableView<GrillaUsuario> grillaUsuario;
 
-    private ObservableList<GrillaUsuario> listaUsuarios = FXCollections.observableArrayList();
+    //private ObservableList<GrillaUsuario> listaUsuarios = FXCollections.observableArrayList();
 
     @FXML
     private MenuItem smnuABMusu; // IMPORTANTE: vincular este campo con el fx:id en el FXML
@@ -38,11 +22,8 @@ public class UsuarioController {
     private MenuItem smnCargaOrdenes;
     @FXML private MenuItem smnuABMCOs;
     @FXML private MenuItem smnuSalir;
-
-
+    @FXML private MenuItem smnuInforme;
     @FXML public void initialize() {
-        System.out.println("UsuarioController inicializado");
-
         if (smnuABMusu != null) {
             smnuABMusu.setOnAction(this::abrirPantallaGestionUsuarios);  // Pasar el evento ActionEvent
         } else {
@@ -61,6 +42,11 @@ public class UsuarioController {
         }
         if(smnCargaOrdenes != null) {
             smnCargaOrdenes.setOnAction(this::AbrirPantallaCargadeOrdenes); 
+        } else{
+            System.out.println("El MenuItem  no está vinculado correctamente.");
+        }
+        if(smnuInforme!= null) {
+            smnuInforme.setOnAction(this::onInformes); 
         } else{
             System.out.println("El MenuItem  no está vinculado correctamente.");
         }
@@ -120,7 +106,24 @@ public class UsuarioController {
         e.printStackTrace();
     }
 }
-    
+    @FXML public void onInformes(ActionEvent event){
+         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/InformesLiquidaciones.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Informes");
+            stage.centerOnScreen();
+            stage.show();
+            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("se ha producido u  error");
+        }
+    }
     @FXML public void AbrirPantallaCargadeOrdenes(ActionEvent event) {
         System.out.println("Se abrirá la pantalla de carga de órdenes metodo abrirpantallacargadeordenes.");
         try {
@@ -140,13 +143,50 @@ public class UsuarioController {
             System.out.println("se ha producido u  error");
         }
     }
-    @FXML public void AbrirPantallaLiquidacion(ActionEvent event) {
-            System.out.println("En desarrollo");
-    }
+    
     @FXML public void OnSalirApp(ActionEvent event) {
             System.out.println("En desarrollo");
     }
-}
+    
+    /*@FXML public void AbrirPantallaLiquidacion(ActionEvent event) {
+        System.out.println("entro a abrirpantallaLiquidacion");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pantallaLiquidaciones.fxml"));
+            Parent root = loader.load();
 
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Liquidaciones");
+            stage.centerOnScreen();
+            stage.show();
+            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("se ha producido u  error");
+        }
+    }*/
+public void AbrirPantallaLiquidacion() {
+    try {
+        // Carga del archivo FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PantallaLiquidaciones.fxml"));
+        
+        // Carga el contenido del FXML en la variable 'root'
+        Parent root = loader.load();  // Aquí 'root' es el contenedor principal de la interfaz
+        
+        // Crea una escena con el contenido cargado
+        Scene scene = new Scene(root);
+        
+        // Configura y muestra la nueva ventana (Stage)
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        
+    } catch (IOException e) {
+        e.printStackTrace();  // Imprime el error en caso de que falle la carga
+    }
+}
+}
 
  

@@ -108,6 +108,7 @@ public class ControllerBusquedaOrdenes {
             dtphasta.setDisable(true);
         }
     }
+   
     @FXML private void onBuscar(ActionEvent event) {
         grillabusqueda.getItems().clear(); // Limpia resultados previos
 

@@ -114,9 +114,9 @@
       <Button fx:id="btnNuevo" layoutX="524.0" layoutY="58.0" mnemonicParsing="false" onAction="#onNuevaOrden" style="-fx-background-color: orange;" text="Nueva" />
       <Button fx:id="BtnEliminar" layoutX="621.0" layoutY="58.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Eliminar" />
       <Button fx:id="btnModificar" layoutX="727.0" layoutY="58.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Modificar" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="27.0" layoutX="7.0" layoutY="416.0" stroke="BLACK" strokeType="INSIDE" width="283.0" />
-      <Button fx:id="BtnFiltrar" contentDisplay="CENTER" layoutX="215.0" layoutY="418.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onFiltrar" prefHeight="21.0" prefWidth="67.0" style="-fx-background-color: orange;" text="Filtrar" textAlignment="CENTER" />
-      <Button fx:id="btnGrabar" cancelButton="true" layoutX="532.0" layoutY="415.0" mnemonicParsing="false" onAction="#onbtnGrabar" style="-fx-background-color: orange; -fx-border-color: black;" text="Grabar">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="27.0" layoutX="7.0" layoutY="413.0" stroke="BLACK" strokeType="INSIDE" width="283.0" />
+      <Button fx:id="BtnFiltrar" alignment="CENTER" contentDisplay="CENTER" layoutX="215.0" layoutY="416.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onFiltrar" prefHeight="21.0" prefWidth="67.0" style="-fx-background-color: orange;" text="BUSCAR" />
+      <Button fx:id="btnGrabar" cancelButton="true" layoutX="532.0" layoutY="413.0" mnemonicParsing="false" onAction="#onbtnGrabar" style="-fx-background-color: orange; -fx-border-color: black;" text="GRABAR">
          <font>
             <Font name="Alef Bold" size="12.0" />
          </font>

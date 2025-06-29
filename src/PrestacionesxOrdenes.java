@@ -55,7 +55,6 @@ public class PrestacionesxOrdenes {
         return idPrestacion;
     }
 
-
     public void setIdPrestacion(int idPrestacion) {
         this.idPrestacion = idPrestacion;
     }

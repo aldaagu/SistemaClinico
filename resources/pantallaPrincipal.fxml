@@ -36,6 +36,7 @@
               <items>
                 <MenuItem fx:id="smnCargaOrdenes" mnemonicParsing="false" onAction="#AbrirPantallaCargadeOrdenes" text="Carga de Ordenes" />
                 <MenuItem fx:id="smnuLiquidacion" mnemonicParsing="false" onAction="#AbrirPantallaLiquidacion" text="Hacer Liquidacion" />
+                  <MenuItem fx:id="smnuInforme" mnemonicParsing="false" onAction="#onInformes" text="Informes" />
               </items>
             </Menu>
             <Menu fx:id="mnuSalir" mnemonicParsing="false" text="SALIR">

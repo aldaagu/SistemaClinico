@@ -3,13 +3,11 @@ package src;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-//import javafx.scene.layout;
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,18 +15,12 @@ import java.sql.ResultSet;
 
 public class LoginController {
 
-    @FXML
-    private TextField txtusuario;
-    @FXML
-    private PasswordField txtpassword;
-    @FXML
-    private Button btnlogin;
+    @FXML  private TextField txtusuario;
+    @FXML  private PasswordField txtpassword;
+    @FXML  private Button btnlogin;
 
     // Método que se ejecuta al hacer clic en el botón
-    @FXML
-    private void iniciarSesion() {
-        System.out.println("El botón fue presionado. Método ejecutado.");
-
+    @FXML private void iniciarSesion() {
         String usuario = txtusuario.getText();
         String passwordInput = txtpassword.getText();
 
@@ -49,7 +41,7 @@ public class LoginController {
             Connection conn = DriverManager.getConnection(url, user, password);
 
             if (conn!=null) {
-                System.out.println("Conexión establecida exitosamente.");
+
                 // validamos usuario y contrase;a
                 String query = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
                 PreparedStatement stmt = conn.prepareStatement(query);
@@ -57,18 +49,12 @@ public class LoginController {
                 stmt.setString(1, usuario);
                 stmt.setString(2, passwordInput);
 
-                System.out.println("Usuario ingresado:------> " + usuario);
-                System.out.println("Password ingresado:-----> " + passwordInput);
-
                 ResultSet rs = stmt.executeQuery();
-
-                System.out.println("Resultado de la consulta: " + query );
 
                 if (rs.next()) {
                     System.out.println("Inicio de sesión exitoso. ¡Bienvenido, " + usuario + "!");
                     
                     // Redirigir a PantallaPrincipal.fxml
-                    System.out.println("carga pantallaPrincipal " );
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pantallaPrincipal.fxml"));
                    
@@ -89,7 +75,9 @@ public class LoginController {
 
             conn.close(); //cerramos la conexion
         } else {
-            System.out.println("Error: No se pudo establecer conexión con la base de datos.");
+            //System.out.println("Error: No se pudo establecer conexión con la base de datos.");
+            Utilidades.mostrarAlerta(Alert.AlertType.ERROR, "Error en la conexion",
+                        "No se pudo establecer conexión con la base de datos");
         }
 
         } catch (Exception e) {

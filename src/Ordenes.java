@@ -151,6 +151,7 @@ public class Ordenes {
 
     // Método para insertar la orden en la base de datos
     public void insertar() throws SQLException {
+        //inserto el detalle de la orden y la orden fue insertada en la clase ordenes
         String sqlOrden = "INSERT INTO ordenes (id_orden, id_prestador, id_profesional," + 
         "Fecha, Nro_Afiliado, ApeNom, id_Federacion, Edad, Domicilio, " +
         "Localidad, Tipo_Liquidacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

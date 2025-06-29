@@ -27,11 +27,17 @@
       <Label layoutX="20.0" layoutY="65.0" text="ID PRESTACION" />
       <Label layoutX="197.0" layoutY="65.0" text="PRESTACION" />
       <Label layoutX="364.0" layoutY="65.0" text="TIPO PRESTACION" />
-      <TextField fx:id="txtid" disable="true" layoutX="20.0" layoutY="90.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-      <TextField fx:id="txtprestacion" disable="true" layoutX="197.0" layoutY="90.0" style="-fx-background-color: gray; -fx-border-color: black;" />
-      <Button fx:id="btnnuevo" defaultButton="true" layoutX="207.0" layoutY="141.0" mnemonicParsing="false" onAction="#onNuevoClicked" text="Nuevo" />
-      <Button fx:id="btngrabar" defaultButton="true" disable="true" layoutX="274.0" layoutY="141.0" mnemonicParsing="false" onAction="#onGrabarClicked" text="Grabar" />
+      <TextField fx:id="txtid" disable="true" layoutX="15.0" layoutY="83.0" prefHeight="41.0" prefWidth="144.0" style="-fx-background-color: orange; -fx-border-color: black;">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></TextField>
+      <TextField fx:id="txtprestacion" disable="true" layoutX="197.0" layoutY="90.0" style="-fx-border-color: black;" />
+      <Button fx:id="btnnuevo" defaultButton="true" layoutX="162.0" layoutY="141.0" mnemonicParsing="false" onAction="#onNuevoClicked" text="Nuevo" />
+      <Button fx:id="btngrabar" defaultButton="true" disable="true" layoutX="506.0" layoutY="141.0" mnemonicParsing="false" onAction="#onGrabarClicked" text="Grabar" />
       <ComboBox fx:id="cmbtipoprestacion" layoutX="370.0" layoutY="90.0" prefWidth="150.0" />
       <Label layoutX="10.0" layoutY="166.0" text="Listado de Prestaciones" />
+      <Button fx:id="btnEliminar" defaultButton="true" layoutX="226.0" layoutY="141.0" mnemonicParsing="false" onAction="#onEliminar" text="Eliminar" />
+      <Button fx:id="btnModificar" defaultButton="true" layoutX="299.0" layoutY="141.0" mnemonicParsing="false" onAction="#onModificar" text="Modificar" />
+      <Button fx:id="btnConsultar" defaultButton="true" layoutX="380.0" layoutY="141.0" mnemonicParsing="false" onAction="#onConsultar" text="Consultar" />
    </children>
 </AnchorPane>

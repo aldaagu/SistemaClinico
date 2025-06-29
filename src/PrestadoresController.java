@@ -102,12 +102,23 @@ public class PrestadoresController {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     GrillaPrestadores prestadorSeleccionado = row.getItem();
+                    ClasePrestadores prestador = buscarPrestadorPorId(prestadorSeleccionado.getId_prestador());
                     cargarDatosEnFormulario(prestadorSeleccionado);
+                    cargarChkEnFormulario(prestador);
                     habilitarCampos(true);
                 }
             });
             return row;
         });
+}
+private void cargarChkEnFormulario(ClasePrestadores prestador) {
+
+    chkGravado.setSelected(prestador.isGravado());
+    chkRural.setSelected(prestador.isRural());
+    chkMonotributo.setSelected(prestador.isMonotributo());
+    chkFamilia.setSelected(prestador.isFamilia());
+    chkEnActividad.setSelected(prestador.isEnActividad());
+    chkClasic.setSelected(prestador.isClasicYAcord());
 }
 
 private void cargarPrestadoresDesdeBD() {
@@ -160,7 +171,6 @@ private void cargarPrestadoresDesdeBD() {
         mostrarAlerta("Error al cargar prestadores: " + e.getMessage(), Alert.AlertType.ERROR);
     }
 }
-
 
 @FXML private void onNuevo() {
         modo = ModoOperacion.NUEVO;
@@ -383,6 +393,8 @@ private void cargarDatosEnFormulario(GrillaPrestadores prestador) {
 
 @FXML private void onBuscar(ActionEvent event) {
     // Lógica de búsqueda acá
+    
+    buscarPrestadorPorId(5);
     System.out.println("Método onBuscar() en preparacion");
 }
 
@@ -391,6 +403,41 @@ private void cargarDatosEnFormulario(GrillaPrestadores prestador) {
     System.out.println("Método onModificar() en preparacion");
 }
 
+private ClasePrestadores buscarPrestadorPorId(int id) {
+
+    ClasePrestadores prestador = null;
+    String sql = "SELECT * FROM prestadores WHERE id_prestador = ?";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971");
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, id);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                prestador = new ClasePrestadores(
+                    rs.getInt("id_prestador"),
+                    rs.getString("razon_social"),
+                    rs.getString("cuit"),
+                    rs.getString("direccion"),
+                    rs.getString("telefono"),
+                    rs.getString("fax"),
+                    rs.getString("email"),
+                    rs.getBoolean("Gravado"),
+                    rs.getBoolean("Rural"),
+                    rs.getBoolean("Monotributo"),
+                    rs.getBoolean("Familia"),
+                    rs.getBoolean("EnActividad"),
+                    rs.getBoolean("ClasicYAcord")
+                );
+            }
+        }
+    } catch (SQLException e) {
+        mostrarAlerta("Error al buscar prestador: " + e.getMessage(), Alert.AlertType.ERROR);
+    }
+
+    return prestador;
+}
 
 } //llave de clase
 

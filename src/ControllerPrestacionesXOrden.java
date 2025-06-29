@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
@@ -43,7 +44,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.stage.Stage;
+import javafx.util.Callback;
+
 
 public class ControllerPrestacionesXOrden{
     @FXML private Label lblnroOrden;
@@ -144,6 +146,29 @@ public class ControllerPrestacionesXOrden{
                 ClaseCompartida.nroOrdenSeleccionado = 0; // Limpiar para evitar recarga innecesaria
             }
         });
+
+      
+        grillaPrestacionesXOrdenes.setRowFactory(tv -> {
+        TableRow<GrillaPrestacionesXOrdenes> row = new TableRow<>();
+        row.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && !row.isEmpty()) {
+                GrillaPrestacionesXOrdenes filaSeleccionada = row.getItem();
+
+                int orden = filaSeleccionada.getIdOrden();
+                int prestacion = filaSeleccionada.getIdPrestacion();
+
+                System.out.println("col1: " + orden + ", col2: " + prestacion);
+
+                if (Eliminar(orden, prestacion)) {
+                    Utilidades.mostrarAlerta(AlertType.INFORMATION, "Prestacion Eliminada", "Prestacion Eliminada");
+                    // Opcional: refrescar la tabla luego de borrar
+                    cargarDatosOrden(orden); 
+                    btnAgregar.setDisable(false);
+                }
+            }
+    });
+    return row;
+});
     }
 
     @FXML private void onNuevaOrden(ActionEvent event) {
@@ -394,10 +419,10 @@ try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clini
             // Manejo de excepción
             }
         } //cierra el primer if
-        Utilidades.limpiarCampos(new TextField[]{txtAfiliado, txtApenom,
-        txtEdad, txtDenuncia,txtDomicilio,txtLocalidad,txtDiagnostico,txtSala,
-        txtUsi,txtUti, txtAlta,txtMonto},new TextArea[]{txtObservaciones},cmbOS, 
-        cmbProfesional,cmbPrestaciones, cmbFederacion);
+        //Utilidades.limpiarCampos(new TextField[]{txtAfiliado, txtApenom,
+        //txtEdad, txtDenuncia,txtDomicilio,txtLocalidad,txtDiagnostico,txtSala,
+        //txtUsi,txtUti, txtAlta,txtMonto},new TextArea[]{txtObservaciones},cmbOS, 
+        //cmbProfesional,cmbPrestaciones, cmbFederacion);
     }
 
     @FXML private void SeleccionarProfesional(ActionEvent event) {
@@ -471,222 +496,222 @@ try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clini
         alerta.showAndWait();
     }
 
-public void cargarDatosOrden(int nroOrden) {
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971")) {
-        // Consulta para obtener los datos de la orden
-        String sqlOrden = "SELECT * FROM ordenes WHERE id_orden = ?";
-        try (PreparedStatement psOrden = conn.prepareStatement(sqlOrden)) {
-            psOrden.setInt(1, nroOrden);
-            try (ResultSet rsOrden = psOrden.executeQuery()) {
-                if (rsOrden.next()) {
-                    // Cargar datos de la orden en los campos correspondientes
-                    int idOrden = rsOrden.getInt("id_orden");
-                    lblnroOrden.setText(rsOrden.wasNull() ? "--" : String.valueOf(idOrden));
-                    //txtAfiliado.setText(rsOrden.getString("Nro_Afiliado"));
-                    txtAfiliado.setText(
-                        rsOrden.getString("Nro_Afiliado") == null || rsOrden.getString("Nro_Afiliado").trim().isEmpty()
-                        ? "--" : rsOrden.getString("Nro_Afiliado")
-                    );
-                    int idProfesional = rsOrden.getInt("id_profesional");
-                    int idPrestador = rsOrden.getInt("id_prestador");
-                    int idFederacion = rsOrden.getInt("id_Federacion");
+    public void cargarDatosOrden(int nroOrden) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971")) {
+            // Consulta para obtener los datos de la orden
+            String sqlOrden = "SELECT * FROM ordenes WHERE id_orden = ?";
+            try (PreparedStatement psOrden = conn.prepareStatement(sqlOrden)) {
+                psOrden.setInt(1, nroOrden);
+                try (ResultSet rsOrden = psOrden.executeQuery()) {
+                    if (rsOrden.next()) {
+                        // Cargar datos de la orden en los campos correspondientes
+                        int idOrden = rsOrden.getInt("id_orden");
+                        lblnroOrden.setText(rsOrden.wasNull() ? "--" : String.valueOf(idOrden));
+                        //txtAfiliado.setText(rsOrden.getString("Nro_Afiliado"));
+                        txtAfiliado.setText(
+                            rsOrden.getString("Nro_Afiliado") == null || rsOrden.getString("Nro_Afiliado").trim().isEmpty()
+                            ? "--" : rsOrden.getString("Nro_Afiliado")
+                        );
+                        int idProfesional = rsOrden.getInt("id_profesional");
+                        int idPrestador = rsOrden.getInt("id_prestador");
+                        int idFederacion = rsOrden.getInt("id_Federacion");
 
 
-                    for (ComboItem item : cmbProfesional.getItems()) {
-                        if (item.getId() == idProfesional) {
-                            cmbProfesional.getSelectionModel().select(item);
-                            break;
+                        for (ComboItem item : cmbProfesional.getItems()) {
+                            if (item.getId() == idProfesional) {
+                                cmbProfesional.getSelectionModel().select(item);
+                                break;
+                            }
                         }
-                    }
-                    for (ComboItem item : cmbOS.getItems()) {
-                        if (item.getId() == idPrestador) {
-                            cmbOS.getSelectionModel().select(item);
-                            break;
+                        for (ComboItem item : cmbOS.getItems()) {
+                            if (item.getId() == idPrestador) {
+                                cmbOS.getSelectionModel().select(item);
+                                break;
+                            }
                         }
-                    }
-                    for (ComboItem item : cmbOS.getItems()) {
-                        if (item.getId() == idFederacion) {
-                            cmbFederacion.getSelectionModel().select(item);
-                            break;
+                        for (ComboItem item : cmbOS.getItems()) {
+                            if (item.getId() == idFederacion) {
+                                cmbFederacion.getSelectionModel().select(item);
+                                break;
+                            }
                         }
+                        //txtApenom.setText(rsOrden.getString("ApeNom"));
+                        //txtApenom.setText( rsOrden.getString("ApeNom")!= null or Apenom="" ? rsOrden.getString("ApeNom") : "ddd");
+                        txtApenom.setText((rsOrden.getString("ApeNom") == null || rsOrden.getString("ApeNom").isEmpty()) ? "desconocido" : rsOrden.getString("ApeNom") );
+                        //txtEdad.setText(String.valueOf(rsOrden.getInt("Edad")));
+                        dtpFecha.setValue(rsOrden.getDate("Fecha").toLocalDate());
+                        int edad = rsOrden.getInt("Edad");
+                        txtEdad.setText(String.valueOf(edad));
+                        //txtDenuncia.setText(rsOrden.getString("cod_denuncia"));
+                        String domicilio = rsOrden.getString("Domicilio");
+                        domicilio = (domicilio == null || domicilio.trim().isEmpty()) ? "--" : domicilio;
+                        String localidad = rsOrden.getString("Localidad");
+                        localidad = (localidad == null || localidad.trim().isEmpty()) ? "--" : localidad;
+                        String codDenuncia = rsOrden.getString("cod_denuncia");
+                            txtDenuncia.setText(
+                            codDenuncia == null || codDenuncia.trim().isEmpty() ? "--" : codDenuncia
+                        );
+                        //txtDiagnostico.setText(rsOrden.getString("diagnostico"));
+                        // Cargar ComboBoxes y RadioButtons según corresponda
+                        // ...
+                        System.out.println(rsOrden.getString("ApeNom")+rsOrden.getDate("Fecha").toLocalDate());
                     }
-                    //txtApenom.setText(rsOrden.getString("ApeNom"));
-                    //txtApenom.setText( rsOrden.getString("ApeNom")!= null or Apenom="" ? rsOrden.getString("ApeNom") : "ddd");
-                    txtApenom.setText((rsOrden.getString("ApeNom") == null || rsOrden.getString("ApeNom").isEmpty()) ? "desconocido" : rsOrden.getString("ApeNom") );
-                    //txtEdad.setText(String.valueOf(rsOrden.getInt("Edad")));
-                    dtpFecha.setValue(rsOrden.getDate("Fecha").toLocalDate());
-                    int edad = rsOrden.getInt("Edad");
-                    txtEdad.setText(String.valueOf(edad));
-                    //txtDenuncia.setText(rsOrden.getString("cod_denuncia"));
-                    String domicilio = rsOrden.getString("Domicilio");
-                    domicilio = (domicilio == null || domicilio.trim().isEmpty()) ? "--" : domicilio;
-                    String localidad = rsOrden.getString("Localidad");
-                    localidad = (localidad == null || localidad.trim().isEmpty()) ? "--" : localidad;
-                    String codDenuncia = rsOrden.getString("cod_denuncia");
-                        txtDenuncia.setText(
-                        codDenuncia == null || codDenuncia.trim().isEmpty() ? "--" : codDenuncia
-                    );
-                    //txtDiagnostico.setText(rsOrden.getString("diagnostico"));
-                    // Cargar ComboBoxes y RadioButtons según corresponda
-                    // ...
-                    System.out.println(rsOrden.getString("ApeNom")+rsOrden.getDate("Fecha").toLocalDate());
                 }
             }
-        }
 
-        // Consulta para obtener las prestaciones asociadas a la orden
-        String sqlPrestaciones = "SELECT * FROM prestacionesxordenes WHERE id_orden = ?";
-        try (PreparedStatement psPrestaciones = conn.prepareStatement(sqlPrestaciones)) {
-            psPrestaciones.setInt(1, nroOrden);
-            try (ResultSet rsPrestaciones = psPrestaciones.executeQuery()) {
-                ObservableList<GrillaPrestacionesXOrdenes> listaPrestaciones = FXCollections.observableArrayList();
-                while (rsPrestaciones.next()) {
-                        int idOrden = rsPrestaciones.getInt("id_orden");
-                        int idPrestacion = rsPrestaciones.getInt("id_prestacion");
-                        
+            // Consulta para obtener las prestaciones asociadas a la orden
+            String sqlPrestaciones = "SELECT * FROM prestacionesxordenes WHERE id_orden = ?";
+            try (PreparedStatement psPrestaciones = conn.prepareStatement(sqlPrestaciones)) {
+                psPrestaciones.setInt(1, nroOrden);
+                try (ResultSet rsPrestaciones = psPrestaciones.executeQuery()) {
+                    ObservableList<GrillaPrestacionesXOrdenes> listaPrestaciones = FXCollections.observableArrayList();
+                    while (rsPrestaciones.next()) {
+                            int idOrden = rsPrestaciones.getInt("id_orden");
+                            int idPrestacion = rsPrestaciones.getInt("id_prestacion");
+                            
 
-                        LocalDate fecIngreso = rsPrestaciones.getDate("FecIngreso") != null ?
-                                            rsPrestaciones.getDate("FecIngreso").toLocalDate() : null;
+                            LocalDate fecIngreso = rsPrestaciones.getDate("FecIngreso") != null ?
+                                                rsPrestaciones.getDate("FecIngreso").toLocalDate() : null;
 
-                        LocalDate fecEgreso = rsPrestaciones.getDate("FecEgreso") != null ?
-                                            rsPrestaciones.getDate("FecEgreso").toLocalDate() : null;
+                            LocalDate fecEgreso = rsPrestaciones.getDate("FecEgreso") != null ?
+                                                rsPrestaciones.getDate("FecEgreso").toLocalDate() : null;
 
-                 
-                        String diagnostico = rsPrestaciones.getString("Diagnostico");
-                        diagnostico = (diagnostico == null || diagnostico.trim().isEmpty()) ? "--" : diagnostico;
+                    
+                            String diagnostico = rsPrestaciones.getString("Diagnostico");
+                            diagnostico = (diagnostico == null || diagnostico.trim().isEmpty()) ? "--" : diagnostico;
 
-                        String condicionAlta = rsPrestaciones.getString("CondicionAlta");
-                        condicionAlta = (condicionAlta == null || condicionAlta.trim().isEmpty()) ? "--" : condicionAlta;
+                            String condicionAlta = rsPrestaciones.getString("CondicionAlta");
+                            condicionAlta = (condicionAlta == null || condicionAlta.trim().isEmpty()) ? "--" : condicionAlta;
 
-                        String sala = rsPrestaciones.getString("sala");
-                        sala = (sala == null || sala.trim().isEmpty()) ? "--" : sala;
+                            String sala = rsPrestaciones.getString("sala");
+                            sala = (sala == null || sala.trim().isEmpty()) ? "--" : sala;
 
-                        String uti = rsPrestaciones.getString("UTI");
-                        uti = (uti == null || uti.trim().isEmpty()) ? "--" : uti;
+                            String uti = rsPrestaciones.getString("UTI");
+                            uti = (uti == null || uti.trim().isEmpty()) ? "--" : uti;
 
-                        String usi = rsPrestaciones.getString("USI");
-                        usi = (usi == null || usi.trim().isEmpty()) ? "--" : usi;
+                            String usi = rsPrestaciones.getString("USI");
+                            usi = (usi == null || usi.trim().isEmpty()) ? "--" : usi;
 
-                        Double monto = rsPrestaciones.getDouble("Monto"); // Validar null si lo necesitás
+                            Double monto = rsPrestaciones.getDouble("Monto"); // Validar null si lo necesitás
 
-                        String observaciones = rsPrestaciones.getString("Observaciones");
-                        observaciones = (observaciones == null || observaciones.trim().isEmpty()) ? "--" : observaciones;
-                        listaPrestaciones.add(new GrillaPrestacionesXOrdenes(
-                                idOrden,idPrestacion,fecIngreso,fecEgreso,diagnostico, condicionAlta,
-                                sala,uti,usi,monto,observaciones
-                        ));
+                            String observaciones = rsPrestaciones.getString("Observaciones");
+                            observaciones = (observaciones == null || observaciones.trim().isEmpty()) ? "--" : observaciones;
+                            listaPrestaciones.add(new GrillaPrestacionesXOrdenes(
+                                    idOrden,idPrestacion,fecIngreso,fecEgreso,diagnostico, condicionAlta,
+                                    sala,uti,usi,monto,observaciones
+                            ));
+                    }
+                    //txtDiagnostico.setText(rsPrestaciones.getString("Edad"));
+                    //txtEdad.setText(String.valueOf(rsPrestaciones.getInt("Edad")));
+                    grillaPrestacionesXOrdenes.setItems(listaPrestaciones);
                 }
-                //txtDiagnostico.setText(rsPrestaciones.getString("Edad"));
-                //txtEdad.setText(String.valueOf(rsPrestaciones.getInt("Edad")));
-                grillaPrestacionesXOrdenes.setItems(listaPrestaciones);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
-}
     private boolean validarCampos() {
-    // Verificamos que los campos no estén vacíos
-    if (dtpFecha.getValue() == null) {
-        mostrarAlerta("Fecha de orden es obligatoria.");
+        // Verificamos que los campos no estén vacíos
+        if (dtpFecha.getValue() == null) {
+            mostrarAlerta("Fecha de orden es obligatoria.");
+            return false;
+        }
+
+        if (cmbProfesional.getValue() == null) {
+            mostrarAlerta("El campo Profesional es obligatorio.");
+            return false;
+        }
+
+
+        if (cmbOS.getValue() == null) {
+            mostrarAlerta("Debe seleccionar una obra social.");
         return false;
-    }
-
-    if (cmbProfesional.getValue() == null) {
-        mostrarAlerta("El campo Profesional es obligatorio.");
+        }
+    
+        if (cmbPrestaciones.getValue() == null) {
+            mostrarAlerta("Debe seleccionar una Prestacion.");
         return false;
+        }
+
+        if (txtAfiliado.getText().isEmpty()) {
+            mostrarAlerta("El campo Número de Afiliado es obligatorio.");
+            return false;
+        }
+
+        if (txtApenom.getText().isEmpty()) {
+            mostrarAlerta("El campo Apellido y Nombre es obligatorio.");
+            return false;
+        }
+
+        if (txtEdad.getText().isEmpty()) {
+            mostrarAlerta("El campo Edad es obligatorio.");
+            return false;
+        }
+
+        try {
+            // Verificamos que la edad sea un número válido
+            Integer.parseInt(txtEdad.getText());
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Edad debe ser un número válido.");
+            return false;
+        }
+
+        if (txtDomicilio.getText().isEmpty()) {
+            mostrarAlerta("El campo Domicilio es obligatorio.");
+            return false;
+        }
+
+        if (txtLocalidad.getText().isEmpty()) {
+            mostrarAlerta("El campo Localidad es obligatorio.");
+            return false;
+        }
+
+        if (txtDiagnostico.getText().isEmpty()) {
+            mostrarAlerta("El campo Diagnóstico es obligatorio.");
+            return false;
+        }
+
+        if (txtSala.getText().isEmpty()) {
+            mostrarAlerta("El campo Sala es obligatorio.");
+            return false;
+        }
+
+        if (txtUti.getText().isEmpty()) {
+            mostrarAlerta("El campo UTI es obligatorio.");
+            return false;
+        }
+
+        if (txtUsi.getText().isEmpty()) {
+            mostrarAlerta("El campo USI es obligatorio.");
+            return false;
+        }
+
+        if (txtMonto.getText().isEmpty()) {
+            mostrarAlerta("El campo Monto es obligatorio.");
+            return false;
+        }
+
+        try {
+            // Verificamos que el monto sea un número válido
+            Double.parseDouble(txtMonto.getText());
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Monto debe ser un número válido.");
+            return false;
+        }
+
+        return true;
+    }
+    private void mostrarAlerta(String mensaje) {
+        // Mostrar un mensaje de alerta si un campo no es válido
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error de Validación");
+        alert.setHeaderText("Campos incorrectos");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
 
-    if (cmbOS.getValue() == null) {
-        mostrarAlerta("Debe seleccionar una obra social.");
-    return false;
-    }
-  
-    if (cmbPrestaciones.getValue() == null) {
-        mostrarAlerta("Debe seleccionar una Prestacion.");
-    return false;
-    }
-
-    if (txtAfiliado.getText().isEmpty()) {
-        mostrarAlerta("El campo Número de Afiliado es obligatorio.");
-        return false;
-    }
-
-    if (txtApenom.getText().isEmpty()) {
-        mostrarAlerta("El campo Apellido y Nombre es obligatorio.");
-        return false;
-    }
-
-    if (txtEdad.getText().isEmpty()) {
-        mostrarAlerta("El campo Edad es obligatorio.");
-        return false;
-    }
-
-    try {
-        // Verificamos que la edad sea un número válido
-        Integer.parseInt(txtEdad.getText());
-    } catch (NumberFormatException e) {
-        mostrarAlerta("Edad debe ser un número válido.");
-        return false;
-    }
-
-    if (txtDomicilio.getText().isEmpty()) {
-        mostrarAlerta("El campo Domicilio es obligatorio.");
-        return false;
-    }
-
-    if (txtLocalidad.getText().isEmpty()) {
-        mostrarAlerta("El campo Localidad es obligatorio.");
-        return false;
-    }
-
-    if (txtDiagnostico.getText().isEmpty()) {
-        mostrarAlerta("El campo Diagnóstico es obligatorio.");
-        return false;
-    }
-
-    if (txtSala.getText().isEmpty()) {
-        mostrarAlerta("El campo Sala es obligatorio.");
-        return false;
-    }
-
-    if (txtUti.getText().isEmpty()) {
-        mostrarAlerta("El campo UTI es obligatorio.");
-        return false;
-    }
-
-    if (txtUsi.getText().isEmpty()) {
-        mostrarAlerta("El campo USI es obligatorio.");
-        return false;
-    }
-
-    if (txtMonto.getText().isEmpty()) {
-        mostrarAlerta("El campo Monto es obligatorio.");
-        return false;
-    }
-
-    try {
-        // Verificamos que el monto sea un número válido
-        Double.parseDouble(txtMonto.getText());
-    } catch (NumberFormatException e) {
-        mostrarAlerta("Monto debe ser un número válido.");
-        return false;
-    }
-
-    return true;
-}
-private void mostrarAlerta(String mensaje) {
-    // Mostrar un mensaje de alerta si un campo no es válido
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Error de Validación");
-    alert.setHeaderText("Campos incorrectos");
-    alert.setContentText(mensaje);
-    alert.showAndWait();
-}
-
-
-public boolean validarCombo(ComboBox<ComboItem> combo, String mensaje) {
+    public boolean validarCombo(ComboBox<ComboItem> combo, String mensaje) {
     ComboItem seleccion = combo.getValue();
     if (seleccion == null) {
         mostrarAlerta(mensaje); // Muestra el mensaje específico
@@ -695,6 +720,25 @@ public boolean validarCombo(ComboBox<ComboItem> combo, String mensaje) {
     return true; // Regresa true si se seleccionó algo
 }
     
+private Boolean Eliminar(int Orden, int Prestacion) {
+    System.out.println("Eliminar llamado con orden=" + Orden + ", prestacion=" + Prestacion);
+    if (Orden > 0 && Prestacion > 0) {
+        String sql = "DELETE FROM prestacionesxOrdenes WHERE id_orden = ? AND id_prestacion = ?";
+        try (Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/clinica", "root", "Pchard_1971");
+             PreparedStatement stmt = conexion.prepareStatement(sql)) {
 
+            stmt.setInt(1, Orden);
+            stmt.setInt(2, Prestacion);
+
+            int filasAfectadas = stmt.executeUpdate();
+            return filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar prestación de orden: " + e.getMessage());
+            return false;
+        }
+    }
+    // Agregado return para evitar error de método sin retorno
+    return false;
 }
-   
+} 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TitledPane text="Generar Informe de Liquidación" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.ControllerInformes">
+    <content>
+        <AnchorPane>
+            <!-- Filtros -->
+            <Label layoutX="10.0" layoutY="10.0" text="Buscar por:" />
+            <ComboBox fx:id="cmbFiltro" layoutX="80.0" layoutY="10.0" prefWidth="150.0" />
+            <TextField fx:id="txtValorBusqueda" layoutX="482.0" layoutY="10.0" promptText="Ingrese valor..." visible="false" />
+            <Button fx:id="btnBuscar" layoutX="420.0" layoutY="10.0" onAction="#onBuscarInforme" text="Buscar" />
+
+            <!-- Resultados -->
+            <TableView fx:id="tablaInforme" layoutX="10.0" layoutY="50.0" prefHeight="300.0" prefWidth="900.0">
+                <columns>
+                    <TableColumn fx:id="col_idLiquidacion" prefWidth="60.0" text="ID" />
+                    <TableColumn fx:id="col_periodo" prefWidth="80.0" text="Periodo" />
+                    <TableColumn fx:id="col_federacion" prefWidth="60.0" text="Federacion" />
+                    <TableColumn fx:id="col_profesional" prefWidth="150.0" text="Profesional" />
+                    <TableColumn fx:id="col_prestadora" prefWidth="150.0" text="Prestadora" />
+                    <TableColumn fx:id="col_prestacion" prefWidth="120.0" text="Prestación" />
+                    <TableColumn fx:id="col_cantidad" prefWidth="60.0" text="Cantidad" />
+                    <TableColumn fx:id="col_monto" prefWidth="100.0" text="Monto" />
+                </columns>
+            </TableView>
+
+            <!-- Totales -->
+            <Label layoutX="930.0" layoutY="60.0" text="Total:" />
+            <TextField fx:id="txtTotal" editable="false" layoutX="980.0" layoutY="55.0" style="-fx-background-color: yellow;" />
+         <ComboBox fx:id="cmbdatos" layoutX="250.0" layoutY="10.0" prefWidth="150.0" />
+        </AnchorPane>
+    </content>
+</TitledPane>

@@ -36,6 +36,7 @@ public class Utilidades {
         }
     }
     // Clase auxiliar para representar los ítems del ComboBox
+    
     public static class ComboItem {
         private int id;
         private String descripcion;
